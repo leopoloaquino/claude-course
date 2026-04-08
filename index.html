@@ -3,29 +3,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Claude Code for Operational Marketing Teams — Interactive Training v2</title>
+  <title>Claude Code for Operational Marketing Teams — Interactive Academy v3</title>
   <style>
     :root {
-      --bg: #0b1020;
-      --bg-soft: #10172d;
-      --panel: #121a33;
-      --panel-2: #182244;
-      --panel-3: #0f1730;
-      --text: #f3f6ff;
-      --muted: #b4bfd9;
-      --muted-2: #93a3c7;
-      --line: rgba(255,255,255,0.09);
-      --accent: #7aa2ff;
-      --accent-2: #78f0c4;
-      --accent-3: #ffd27a;
-      --danger: #ff8f9a;
-      --success: #7ff0c4;
-      --shadow: 0 18px 50px rgba(0,0,0,0.35);
-      --radius-xl: 28px;
-      --radius-lg: 22px;
-      --radius-md: 16px;
-      --radius-sm: 12px;
-      --sidebar-w: 320px;
+      --bg: #0f1021;
+      --bg-2: #171a33;
+      --panel: rgba(18, 24, 51, 0.82);
+      --panel-2: rgba(30, 38, 76, 0.9);
+      --panel-3: rgba(255,255,255,0.06);
+      --text: #f7f8ff;
+      --muted: #c0c8e6;
+      --muted-2: #93a2d0;
+      --line: rgba(255,255,255,0.11);
+      --blue: #6ea3ff;
+      --cyan: #5ce7ff;
+      --mint: #63f2bf;
+      --yellow: #ffd66e;
+      --pink: #ff8cc8;
+      --orange: #ff9b72;
+      --purple: #a58cff;
+      --danger: #ff8f9f;
+      --success: #6af0bf;
+      --shadow: 0 20px 60px rgba(0,0,0,0.35);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --radius-sm: 14px;
+      --sidebar: 320px;
     }
 
     * { box-sizing: border-box; }
@@ -33,19 +37,22 @@
     body {
       margin: 0;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(122,162,255,0.15), transparent 28%),
-        radial-gradient(circle at 90% 10%, rgba(120,240,196,0.10), transparent 20%),
-        linear-gradient(180deg, #0a0f1f 0%, #0e1530 100%);
       color: var(--text);
+      background:
+        radial-gradient(circle at 10% 10%, rgba(110,163,255,0.22), transparent 18%),
+        radial-gradient(circle at 88% 10%, rgba(99,242,191,0.16), transparent 14%),
+        radial-gradient(circle at 80% 70%, rgba(255,140,200,0.14), transparent 18%),
+        linear-gradient(180deg, #0b0d1d 0%, #131937 100%);
       line-height: 1.55;
+      min-height: 100vh;
     }
 
-    a { color: #b5f7de; }
-    code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    a { color: #cbfff0; }
+    button, input { font: inherit; }
+
     .layout {
       display: grid;
-      grid-template-columns: var(--sidebar-w) 1fr;
+      grid-template-columns: var(--sidebar) 1fr;
       min-height: 100vh;
     }
 
@@ -54,140 +61,118 @@
       top: 0;
       height: 100vh;
       overflow-y: auto;
-      padding: 22px;
+      padding: 20px;
       border-right: 1px solid var(--line);
-      background: rgba(7, 11, 24, 0.84);
-      backdrop-filter: blur(14px);
+      background: rgba(8, 11, 24, 0.78);
+      backdrop-filter: blur(16px);
+    }
+
+    .brand, .side-card {
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
     }
 
     .brand {
       padding: 18px;
-      border-radius: var(--radius-lg);
-      background: linear-gradient(180deg, rgba(122,162,255,0.16), rgba(255,255,255,0.03));
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow);
-      margin-bottom: 16px;
+      margin-bottom: 14px;
+      background:
+        radial-gradient(circle at top left, rgba(110,163,255,0.26), transparent 32%),
+        linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
     }
 
     .brand h1 {
       margin: 0 0 8px;
-      font-size: 1.25rem;
-      line-height: 1.1;
+      font-size: 1.22rem;
+      line-height: 1.08;
     }
 
-    .brand p {
+    .brand p, .side-card p {
       margin: 0;
       color: var(--muted);
-      font-size: 0.95rem;
+      font-size: 0.94rem;
     }
 
     .side-card {
-      background: rgba(18, 26, 51, 0.9);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
       padding: 16px;
-      box-shadow: var(--shadow);
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     .side-card h3 {
       margin: 0 0 10px;
-      font-size: 1rem;
+      font-size: 0.98rem;
     }
 
     .progress-track {
-      width: 100%;
       height: 12px;
-      border-radius: 999px;
       background: rgba(255,255,255,0.08);
+      border-radius: 999px;
       overflow: hidden;
       margin: 10px 0 8px;
     }
 
     .progress-fill {
-      width: 0%;
       height: 100%;
-      background: linear-gradient(90deg, var(--accent), var(--accent-2));
-      transition: width 0.3s ease;
+      width: 0;
+      background: linear-gradient(90deg, var(--blue), var(--cyan), var(--mint));
+      transition: width 0.25s ease;
     }
 
-    .button,
-    .ghost-btn,
-    .lesson-nav a,
-    .chip,
-    .quiz-option,
-    .module-toggle,
-    .path-btn,
-    .resource-filter button,
-    .tab-btn,
-    .quick-action {
-      transition: transform 0.15s ease, opacity 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+    .btn, .ghost-btn, .nav-link, .quiz-option, .pill-btn, .slide-dot, .slide-action {
+      transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
     }
 
-    .button,
-    .path-btn,
-    .quick-action {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
+    .btn, .slide-action {
       border: none;
       cursor: pointer;
-      font-weight: 800;
       color: white;
-      border-radius: 14px;
+      font-weight: 800;
       padding: 11px 16px;
-      background: linear-gradient(135deg, var(--accent), #5d84ff);
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     }
 
-    .button:hover,
-    .path-btn:hover,
-    .quick-action:hover,
-    .ghost-btn:hover,
-    .lesson-nav a:hover,
-    .quiz-option:hover,
-    .tab-btn:hover,
-    .resource-filter button:hover {
+    .btn:hover, .ghost-btn:hover, .nav-link:hover, .quiz-option:hover, .pill-btn:hover, .slide-action:hover {
       transform: translateY(-1px);
     }
 
-    .ghost-btn,
-    .tab-btn,
-    .resource-filter button {
+    .ghost-btn, .pill-btn {
       border: 1px solid var(--line);
-      background: rgba(255,255,255,0.04);
+      background: rgba(255,255,255,0.05);
       color: var(--text);
-      cursor: pointer;
       border-radius: 12px;
       padding: 10px 12px;
+      cursor: pointer;
       font-weight: 700;
     }
 
-    .lesson-nav {
+    .nav-list {
       display: grid;
       gap: 8px;
     }
 
-    .lesson-nav a {
-      text-decoration: none;
-      color: var(--text);
-      background: rgba(255,255,255,0.03);
-      border: 1px solid transparent;
-      border-radius: 14px;
-      padding: 10px 12px;
+    .nav-link {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 10px;
-      font-size: 0.93rem;
+      text-decoration: none;
+      color: var(--text);
+      border-radius: 14px;
+      border: 1px solid transparent;
+      background: rgba(255,255,255,0.04);
+      padding: 10px 12px;
+      font-size: 0.92rem;
     }
 
-    .lesson-nav a.active {
-      border-color: rgba(122,162,255,0.4);
-      background: rgba(122,162,255,0.12);
+    .nav-link.active {
+      background: rgba(110,163,255,0.15);
+      border-color: rgba(110,163,255,0.35);
     }
 
-    .status {
+    .status-dot {
       width: 10px;
       height: 10px;
       border-radius: 999px;
@@ -195,27 +180,28 @@
       flex-shrink: 0;
     }
 
-    .status.done { background: var(--success); }
+    .status-dot.done { background: var(--success); }
 
     .main {
-      max-width: 1220px;
+      max-width: 1320px;
       width: 100%;
       margin: 0 auto;
-      padding: 28px;
+      padding: 26px;
     }
 
     .hero {
-      padding: 30px;
+      position: relative;
+      overflow: hidden;
       border-radius: var(--radius-xl);
-      background:
-        radial-gradient(circle at top left, rgba(122,162,255,0.2), transparent 35%),
-        radial-gradient(circle at 85% 0%, rgba(120,240,196,0.12), transparent 24%),
-        linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
       border: 1px solid var(--line);
       box-shadow: var(--shadow);
+      padding: 32px;
       margin-bottom: 18px;
-      overflow: hidden;
-      position: relative;
+      background:
+        radial-gradient(circle at top left, rgba(110,163,255,0.26), transparent 25%),
+        radial-gradient(circle at 70% 10%, rgba(99,242,191,0.16), transparent 20%),
+        radial-gradient(circle at 90% 65%, rgba(255,140,200,0.14), transparent 18%),
+        linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
     }
 
     .eyebrow {
@@ -224,111 +210,91 @@
       gap: 8px;
       padding: 7px 12px;
       border-radius: 999px;
-      background: rgba(120,240,196,0.12);
-      color: #bffff0;
-      font-size: 0.8rem;
-      font-weight: 800;
-      letter-spacing: 0.02em;
+      background: rgba(99,242,191,0.12);
+      color: #ccfff0;
       text-transform: uppercase;
+      letter-spacing: 0.03em;
+      font-size: 0.78rem;
+      font-weight: 900;
       margin-bottom: 12px;
     }
 
     .hero h2 {
-      margin: 0 0 10px;
-      font-size: clamp(2rem, 4vw, 3.4rem);
-      line-height: 1;
-      max-width: 880px;
+      margin: 0 0 12px;
+      font-size: clamp(2.2rem, 4vw, 3.8rem);
+      line-height: 0.98;
+      max-width: 900px;
     }
 
     .hero p {
-      max-width: 850px;
+      margin: 0 0 16px;
+      max-width: 920px;
       color: var(--muted);
-      margin: 0 0 18px;
       font-size: 1.03rem;
     }
 
-    .hero-actions,
-    .toolbar,
-    .path-grid,
-    .stat-grid,
-    .quick-grid,
-    .resource-filter,
-    .module-meta,
-    .lesson-actions,
-    .tab-row {
+    .hero-actions, .toolbar, .tab-row, .resource-filters, .module-meta, .slide-controls, .lesson-actions, .summary-grid {
       display: flex;
-      gap: 10px;
       flex-wrap: wrap;
+      gap: 10px;
     }
 
-    .hero-grid,
-    .module-grid,
-    .resource-grid,
-    .stat-grid,
-    .quick-grid,
-    .path-grid {
+    .hero-grid, .summary-grid, .resource-grid {
       display: grid;
       gap: 14px;
     }
 
     .hero-grid {
       grid-template-columns: repeat(4, 1fr);
-      margin-top: 18px;
+      margin-top: 16px;
     }
 
-    .mini-card,
-    .quick-card,
-    .resource-card,
-    .stat-card,
-    .module-subcard,
-    .journey-card {
-      border-radius: 18px;
+    .hero-card, .summary-card, .resource-card, .slide-card, .module-shell, .tab-panel-inner {
       border: 1px solid var(--line);
-      background: rgba(255,255,255,0.04);
+      background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03));
+      border-radius: 20px;
+    }
+
+    .hero-card, .summary-card {
       padding: 16px;
     }
 
-    .mini-card strong,
-    .stat-card strong,
-    .journey-card strong {
+    .hero-card strong, .summary-card strong {
       display: block;
       margin-bottom: 6px;
       font-size: 0.98rem;
     }
 
-    .mini-card span,
-    .stat-card span,
-    .journey-card span,
-    .resource-card p,
-    .module-subcard p,
-    .quick-card p {
+    .hero-card span, .summary-card span {
       color: var(--muted);
-      font-size: 0.94rem;
-      margin: 0;
+      font-size: 0.93rem;
+    }
+
+    .toolbar, .tabs-wrap, .resource-hub, .module-shell, .summary-section {
+      border: 1px solid var(--line);
+      background: rgba(18,24,51,0.8);
+      border-radius: 26px;
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
     }
 
     .toolbar {
-      margin: 18px 0 8px;
       justify-content: space-between;
       align-items: center;
+      padding: 16px 18px;
     }
 
-    .toolbar-left,
-    .toolbar-right {
+    .toolbar-left, .toolbar-right {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
       align-items: center;
     }
 
-    .search-wrap {
-      position: relative;
-    }
-
     .search-wrap input {
-      width: 300px;
+      width: 320px;
       max-width: 100%;
-      background: rgba(255,255,255,0.04);
+      background: rgba(255,255,255,0.06);
       color: var(--text);
       border: 1px solid var(--line);
       border-radius: 14px;
@@ -336,29 +302,17 @@
       outline: none;
     }
 
-    .tabs-section,
-    .resource-section,
-    .module,
-    .capstone,
-    .section-card {
-      background: rgba(18,26,51,0.9);
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      box-shadow: var(--shadow);
-      margin-bottom: 16px;
+    .tabs-wrap {
       overflow: hidden;
     }
 
-    .tabs-shell {
-      padding: 18px 18px 6px;
+    .tab-row {
+      padding: 16px 18px 8px;
     }
 
-    .tab-row { margin-bottom: 12px; }
-    .tab-btn.active,
-    .resource-filter button.active {
-      background: rgba(122,162,255,0.14);
-      border-color: rgba(122,162,255,0.4);
-      color: #dce6ff;
+    .pill-btn.active, .resource-filters .pill-btn.active {
+      background: rgba(110,163,255,0.16);
+      border-color: rgba(110,163,255,0.35);
     }
 
     .tab-panel {
@@ -368,33 +322,51 @@
 
     .tab-panel.active { display: block; }
 
-    .path-grid {
-      grid-template-columns: repeat(4, 1fr);
+    .tab-panel-inner {
+      padding: 18px;
+      background:
+        radial-gradient(circle at top left, rgba(110,163,255,0.12), transparent 28%),
+        linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
     }
 
-    .journey-card {
-      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
-      cursor: pointer;
+    .journey-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
     }
 
-    .journey-card.active {
-      border-color: rgba(122,162,255,0.42);
-      background: rgba(122,162,255,0.11);
+    .journey-step {
+      border-radius: 18px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
     }
 
-    .journey-level {
+    .journey-step strong {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .journey-step span {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .journey-badge, .tag, .resource-pill {
       display: inline-flex;
-      padding: 6px 10px;
+      align-items: center;
       border-radius: 999px;
-      background: rgba(255,255,255,0.05);
+      padding: 6px 10px;
       font-size: 0.78rem;
-      font-weight: 800;
+      font-weight: 900;
+    }
+
+    .journey-badge {
+      background: rgba(255,255,255,0.06);
       margin-bottom: 10px;
     }
 
-    .resource-section {
-      padding: 18px;
-    }
+    .resource-hub { padding: 18px; }
 
     .resource-grid {
       grid-template-columns: repeat(2, 1fr);
@@ -402,10 +374,13 @@
     }
 
     .resource-card {
-      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.03));
+      padding: 16px;
       display: flex;
       flex-direction: column;
       gap: 10px;
+      background:
+        radial-gradient(circle at top left, rgba(110,163,255,0.12), transparent 26%),
+        linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.03));
     }
 
     .resource-card h4 {
@@ -413,121 +388,212 @@
       font-size: 1rem;
     }
 
+    .resource-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.93rem;
+    }
+
     .resource-meta {
       display: flex;
-      gap: 8px;
       flex-wrap: wrap;
+      gap: 8px;
     }
 
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.05);
-      color: #d6def8;
-      font-size: 0.78rem;
-      font-weight: 800;
-      border: 1px solid rgba(255,255,255,0.05);
+    .resource-pill {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.06);
+      color: #dfe8ff;
     }
 
-    .pill.good { background: rgba(120,240,196,0.12); color: #c9fff0; }
-    .pill.caution { background: rgba(255,210,122,0.12); color: #ffe7b8; }
-    .pill.advanced { background: rgba(255,143,154,0.12); color: #ffd2d9; }
+    .resource-pill.good { background: rgba(99,242,191,0.12); color: #ccfff0; }
+    .resource-pill.caution { background: rgba(255,214,110,0.12); color: #ffeab9; }
+    .resource-pill.advanced { background: rgba(255,140,200,0.12); color: #ffd9ee; }
 
     .resource-link {
       margin-top: auto;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
       text-decoration: none;
-      font-weight: 800;
-      color: #cffff0;
+      font-weight: 900;
     }
 
-    .module-header {
-      padding: 20px 22px;
-      cursor: pointer;
+    .module-shell {
+      padding: 16px;
+      margin-bottom: 18px;
+      background:
+        radial-gradient(circle at top left, rgba(110,163,255,0.12), transparent 18%),
+        linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+    }
+
+    .module-top {
       display: flex;
       justify-content: space-between;
-      gap: 16px;
+      gap: 12px;
       align-items: flex-start;
-      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0));
+      margin-bottom: 14px;
     }
 
-    .module-header h3 {
+    .module-top h3 {
       margin: 0 0 6px;
       font-size: 1.2rem;
     }
 
-    .module-header p {
+    .module-top p {
       margin: 0;
       color: var(--muted);
-      max-width: 780px;
+      max-width: 800px;
     }
 
-    .module-content {
-      display: none;
-      padding: 0 22px 24px;
+    .module-meta { margin-top: 12px; }
+
+    .tag {
+      background: rgba(110,163,255,0.12);
+      color: #dce7ff;
+      border: 1px solid rgba(110,163,255,0.22);
     }
 
-    .module.open .module-content { display: block; }
+    .tag.level { background: rgba(99,242,191,0.12); color: #ccfff0; border-color: rgba(99,242,191,0.22); }
+    .tag.optional { background: rgba(255,214,110,0.12); color: #ffeab9; border-color: rgba(255,214,110,0.22); }
 
-    .module-meta { margin: 12px 0 14px; }
+    .slides-wrap {
+      position: relative;
+      overflow: hidden;
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      background: rgba(8, 11, 24, 0.32);
+    }
 
-    .chip {
+    .slides-track {
+      display: flex;
+      width: 100%;
+      transition: transform 0.3s ease;
+    }
+
+    .slide {
+      min-width: 100%;
+      padding: 18px;
+    }
+
+    .slide-card {
+      padding: 22px;
+      min-height: 450px;
+      background:
+        radial-gradient(circle at top left, rgba(110,163,255,0.16), transparent 24%),
+        radial-gradient(circle at 80% 10%, rgba(255,140,200,0.10), transparent 16%),
+        linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+    }
+
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .slide-title {
+      margin: 0;
+      font-size: 1.3rem;
+      line-height: 1.1;
+    }
+
+    .slide-counter {
       display: inline-flex;
       align-items: center;
-      padding: 7px 10px;
       border-radius: 999px;
-      background: rgba(122,162,255,0.1);
-      color: #d9e4ff;
-      border: 1px solid rgba(122,162,255,0.24);
+      padding: 7px 10px;
+      background: rgba(255,255,255,0.06);
+      color: var(--muted);
       font-weight: 800;
-      font-size: 0.8rem;
+      font-size: 0.82rem;
+      white-space: nowrap;
     }
 
-    .module-grid {
-      grid-template-columns: 1.15fr 0.85fr;
+    .highlight-box {
+      border-left: 4px solid var(--cyan);
+      border-radius: 16px;
+      padding: 14px 16px;
+      margin: 0 0 16px;
+      background: rgba(92,231,255,0.09);
+      color: #dbf9ff;
     }
 
-    .module-subcard h4 {
+    .highlight-box strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .explain-grid, .practice-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 16px;
+    }
+
+    .info-card {
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.05);
+      padding: 16px;
+    }
+
+    .info-card h4 {
       margin: 0 0 10px;
       font-size: 1rem;
     }
 
-    .module-subcard ul,
-    .module-subcard ol {
-      padding-left: 20px;
-      margin: 0;
+    .info-card p, .info-card li {
+      color: var(--muted);
     }
 
-    .module-subcard li { margin-bottom: 8px; }
+    .info-card ul, .info-card ol {
+      margin: 0;
+      padding-left: 20px;
+    }
 
-    .module-subcard pre {
-      background: #0b1123;
+    .code-block {
+      background: #0a1021;
       border: 1px solid var(--line);
+      border-radius: 16px;
       padding: 14px;
-      border-radius: 14px;
       overflow-x: auto;
       color: #dce8ff;
       white-space: pre-wrap;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
       font-size: 0.9rem;
     }
 
-    .callout {
-      padding: 12px 14px;
-      border-radius: 14px;
-      border-left: 4px solid var(--accent-3);
-      background: rgba(255,210,122,0.08);
-      color: #ffe7b8;
+    .slide-controls {
+      justify-content: space-between;
+      align-items: center;
       margin-top: 14px;
     }
 
-    .callout.success {
-      border-left-color: var(--success);
-      background: rgba(120,240,196,0.08);
-      color: #cffff0;
+    .slide-left, .slide-right, .slide-center {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .slide-dots {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .slide-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.10);
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .slide-dot.active {
+      background: linear-gradient(135deg, var(--blue), var(--mint));
+      border-color: rgba(255,255,255,0.15);
     }
 
     .quiz {
@@ -536,77 +602,56 @@
     }
 
     .quiz-option {
-      width: 100%;
       text-align: left;
       border: 1px solid var(--line);
       border-radius: 14px;
       padding: 12px 14px;
       cursor: pointer;
-      background: rgba(255,255,255,0.04);
+      background: rgba(255,255,255,0.05);
       color: var(--text);
       font-weight: 700;
     }
 
     .quiz-option.correct {
-      background: rgba(120,240,196,0.12);
-      border-color: rgba(120,240,196,0.4);
+      background: rgba(99,242,191,0.12);
+      border-color: rgba(99,242,191,0.34);
     }
 
     .quiz-option.wrong {
-      background: rgba(255,143,154,0.12);
-      border-color: rgba(255,143,154,0.32);
+      background: rgba(255,143,159,0.12);
+      border-color: rgba(255,143,159,0.34);
     }
 
     .quiz-feedback {
-      min-height: 26px;
+      min-height: 22px;
       color: var(--muted);
       font-size: 0.93rem;
     }
 
-    .complete-btn.done { background: linear-gradient(135deg, #2bc98c, #119a64); }
-
-    .capstone {
-      padding: 22px;
-      margin-top: 10px;
+    .summary-section {
+      padding: 18px;
+      margin-top: 8px;
     }
 
-    .capstone h3,
-    .resource-section h3,
-    .section-card h3 {
-      margin: 0 0 10px;
-    }
-
-    .quick-grid {
-      grid-template-columns: repeat(3, 1fr);
+    .summary-grid {
+      grid-template-columns: repeat(4, 1fr);
       margin-top: 12px;
     }
 
-    .quick-card {
-      background: rgba(255,255,255,0.03);
-      border-radius: 18px;
-      border: 1px solid var(--line);
+    .summary-card {
       padding: 16px;
-    }
-
-    .stat-grid {
-      grid-template-columns: repeat(4, 1fr);
-      margin-top: 10px;
-    }
-
-    .section-card {
-      padding: 18px;
     }
 
     .footer {
       color: var(--muted-2);
       font-size: 0.9rem;
       text-align: center;
-      padding: 16px 0 26px;
+      padding: 10px 0 28px;
     }
 
     .hidden { display: none !important; }
 
-    @media (max-width: 1100px) {
+    @media (max-width: 1180px) {
       .layout { grid-template-columns: 1fr; }
       .sidebar {
         position: static;
@@ -614,30 +659,22 @@
         border-right: none;
         border-bottom: 1px solid var(--line);
       }
-      .path-grid,
-      .hero-grid,
-      .module-grid,
-      .resource-grid,
-      .stat-grid,
-      .quick-grid {
+      .hero-grid, .journey-grid, .resource-grid, .summary-grid, .explain-grid, .practice-grid {
         grid-template-columns: 1fr 1fr;
       }
     }
 
     @media (max-width: 760px) {
-      .main { padding: 18px; }
+      .main { padding: 16px; }
       .hero { padding: 22px; }
-      .path-grid,
-      .hero-grid,
-      .module-grid,
-      .resource-grid,
-      .stat-grid,
-      .quick-grid {
-        grid-template-columns: 1fr;
-      }
-      .search-wrap input { width: 100%; }
       .toolbar { flex-direction: column; align-items: stretch; }
       .toolbar-left, .toolbar-right { width: 100%; }
+      .search-wrap input { width: 100%; }
+      .hero-grid, .journey-grid, .resource-grid, .summary-grid, .explain-grid, .practice-grid {
+        grid-template-columns: 1fr;
+      }
+      .slide-card { min-height: auto; }
+      .module-top { flex-direction: column; }
     }
   </style>
 </head>
@@ -645,672 +682,804 @@
   <div class="layout">
     <aside class="sidebar">
       <div class="brand">
-        <h1>Claude Code for Operational Marketing Teams</h1>
-        <p>Interactive internal training • Version 2 • Beginner-to-Advanced pathway</p>
+        <h1>Claude Code Academy v3</h1>
+        <p>For operational marketing teams learning code, apps, and AI workflows in a way that actually feels usable.</p>
       </div>
 
       <div class="side-card">
-        <h3>Progress</h3>
+        <h3>Course progress</h3>
         <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-        <div id="progressText">0 of 12 lessons completed</div>
+        <div id="progressText">0 of 12 modules completed</div>
         <div class="module-meta" style="margin-top:10px;">
           <button class="ghost-btn" id="resetProgress">Reset progress</button>
-          <button class="ghost-btn" onclick="expandAllLessons()">Expand all</button>
+          <button class="ghost-btn" onclick="showAllModules()">Show all</button>
         </div>
       </div>
 
       <div class="side-card">
         <h3>Jump to module</h3>
-        <div class="lesson-nav" id="lessonNav"></div>
+        <div class="nav-list" id="lessonNav"></div>
       </div>
 
       <div class="side-card">
-        <h3>Audience fit</h3>
-        <p style="margin:0;color:var(--muted);font-size:0.94rem;">This version is designed for operational marketing teams who want to become more technical without getting buried in engineering jargon.</p>
+        <h3>How this version is different</h3>
+        <p>Each module now behaves like a mini slideshow, with sharper explanations, more visual structure, and a more inviting academy-style interface.</p>
       </div>
     </aside>
 
     <main class="main">
       <section class="hero">
-        <div class="eyebrow">Learning path for non-technical teams</div>
-        <h2>From AI-curious marketer to confident builder</h2>
-        <p>This training turns Claude Code into something your team can actually learn. It starts with AI fluency and practical workflows, moves into code and apps, then gradually introduces APIs, Claude Code, skills, agents, and MCP. It is designed to feel useful for operations, campaigns, content systems, and internal workflow automation—not just for software engineers.</p>
+        <div class="eyebrow">Interactive training experience</div>
+        <h2>Learn Claude Code in a way your team will actually want to keep using</h2>
+        <p>This version is more visual, more colorful, and much more course-like. Each module is presented as its own slideshow, so the material feels easier to absorb. The explanations are tighter, the key ideas are highlighted more clearly, and the overall flow feels much more like a proper internal learning academy.</p>
         <div class="hero-actions">
-          <button class="button" onclick="openLesson('lesson-1')">Start from Module 1</button>
-          <button class="ghost-btn" onclick="document.getElementById('resourceHub').scrollIntoView({behavior:'smooth'})">See learning resources</button>
-          <button class="ghost-btn" onclick="toggleTab('journey')">View learning path</button>
+          <button class="btn" onclick="openModule('module-1')">Start module 1</button>
+          <button class="ghost-btn" onclick="document.getElementById('resourceHub').scrollIntoView({behavior:'smooth'})">See recommended resources</button>
+          <button class="ghost-btn" onclick="document.getElementById('learningPath').scrollIntoView({behavior:'smooth'})">View journey</button>
         </div>
         <div class="hero-grid">
-          <div class="mini-card"><strong>12 modules</strong><span>Sequenced from foundations to beginner-safe automation.</span></div>
-          <div class="mini-card"><strong>Team-oriented examples</strong><span>Content ops, campaign workflows, briefs, localization, and process automation.</span></div>
-          <div class="mini-card"><strong>Interactive design</strong><span>Progress tracking, filters, tabs, quick quizzes, and capstone planning.</span></div>
-          <div class="mini-card"><strong>Practical roadmap</strong><span>Clear distinction between what to learn now, later, and much later.</span></div>
+          <div class="hero-card"><strong>Slideshow modules</strong><span>Each lesson unfolds as a sequence of focused, easy-to-digest slides.</span></div>
+          <div class="hero-card"><strong>Straight-to-the-point teaching</strong><span>Important concepts are highlighted and simplified without dumbing them down.</span></div>
+          <div class="hero-card"><strong>Marketing-team examples</strong><span>Content ops, localization, briefs, workflows, campaign QA, and reporting use cases.</span></div>
+          <div class="hero-card"><strong>Beginner to advanced path</strong><span>Clear sequencing so the team knows what to learn now and what to postpone.</span></div>
         </div>
       </section>
 
-      <section class="tabs-section">
-        <div class="tabs-shell">
-          <div class="tab-row">
-            <button class="tab-btn active" onclick="toggleTab('journey')">Journey map</button>
-            <button class="tab-btn" onclick="toggleTab('team')">Why this matters for marketing ops</button>
-            <button class="tab-btn" onclick="toggleTab('slides')">Suggested slide flow</button>
-          </div>
+      <section class="tabs-wrap" id="learningPath">
+        <div class="tab-row">
+          <button class="pill-btn active" onclick="toggleTab('journey', this)">Journey</button>
+          <button class="pill-btn" onclick="toggleTab('team', this)">Why this matters for marketing ops</button>
+          <button class="pill-btn" onclick="toggleTab('slides', this)">Live workshop slide flow</button>
         </div>
 
         <div class="tab-panel active" id="tab-journey">
-          <div class="section-card" style="margin:0 18px 18px;">
-            <h3>Beginner → Advanced path</h3>
-            <p style="color:var(--muted);margin-top:0;">This path uses the Anthropic Academy resources as optional reinforcement material, but the course itself stays more beginner-friendly than some of the developer-first Academy courses.</p>
-            <div class="path-grid" id="journeyGrid"></div>
+          <div class="tab-panel-inner">
+            <div class="highlight-box">
+              <strong>The core sequencing rule</strong>
+              Start with AI fluency, then learn software basics, then small apps, then Claude Code workflows, then APIs and skills, then beginner-safe agents, and only later touch MCP or cloud-specific stack topics.
+            </div>
+            <div class="journey-grid" id="journeyGrid"></div>
           </div>
         </div>
 
         <div class="tab-panel" id="tab-team">
-          <div class="section-card" style="margin:0 18px 18px;">
-            <h3>Why this is useful for an operational marketing team</h3>
-            <div class="quick-grid">
-              <div class="quick-card"><strong>Campaign systems</strong><p>Learn how small apps can support campaign QA, translation, copy variants, tagging, and reporting workflows.</p></div>
-              <div class="quick-card"><strong>Team leverage</strong><p>Use Claude Code to prototype internal tools without waiting for a full engineering sprint every time.</p></div>
-              <div class="quick-card"><strong>Better briefs</strong><p>Once the team understands apps, APIs, and agents, they can brief technical work much more intelligently.</p></div>
-              <div class="quick-card"><strong>Workflow automation</strong><p>Move from manual repetitive tasks toward lightweight automations that still remain understandable and reviewable.</p></div>
-              <div class="quick-card"><strong>Prompt maturity</strong><p>The team stops treating prompting like wishful thinking and starts structuring requests like real workflows.</p></div>
-              <div class="quick-card"><strong>Strategic literacy</strong><p>Even if not everyone becomes technical, the team becomes much better at evaluating tools, vendors, and internal AI opportunities.</p></div>
+          <div class="tab-panel-inner">
+            <div class="summary-grid">
+              <div class="summary-card"><strong>Better briefs</strong><span>The team learns to describe work in ways that make technical execution easier and more accurate.</span></div>
+              <div class="summary-card"><strong>Faster internal tools</strong><span>Instead of waiting for a full engineering sprint, the team can prototype small workflow helpers much sooner.</span></div>
+              <div class="summary-card"><strong>Smarter vendor and tool evaluation</strong><span>Once the team understands apps, APIs, and agents, it becomes much harder to impress them with nonsense.</span></div>
+              <div class="summary-card"><strong>Less repetitive manual work</strong><span>Campaign operations, formatting, adaptation, and QA can all become more systematic.</span></div>
             </div>
           </div>
         </div>
 
         <div class="tab-panel" id="tab-slides">
-          <div class="section-card" style="margin:0 18px 18px;">
-            <h3>Suggested slide flow for live teaching</h3>
-            <ol style="margin:0;padding-left:20px;">
-              <li>What Claude Code is and what it is not</li>
-              <li>How software works in plain English</li>
-              <li>Marketing-team use cases</li>
+          <div class="tab-panel-inner">
+            <ol style="margin:0;padding-left:20px;color:var(--muted);">
+              <li>AI fluency and healthy expectations</li>
+              <li>What Claude Code is and is not</li>
+              <li>Software concepts in plain English</li>
+              <li>Apps, APIs, and workflow architecture</li>
               <li>Prompting as workflow design</li>
-              <li>Tiny app architecture</li>
-              <li>Hands-on mini build</li>
-              <li>Git and safe iteration</li>
+              <li>The first internal tool</li>
+              <li>Terminal and Git basics</li>
               <li>Claude Code in real team workflows</li>
-              <li>Skills, agents, and where they fit</li>
-              <li>MCP and advanced integrations</li>
-              <li>Capstone project ideas</li>
-              <li>30-day next-step roadmap</li>
+              <li>Apps vs agents</li>
+              <li>APIs, skills, and reusable workflows</li>
+              <li>Beginner-safe agents</li>
+              <li>MCP and advanced topics you can postpone</li>
             </ol>
           </div>
         </div>
       </section>
 
-      <section class="resource-section" id="resourceHub">
-        <h3>Curated learning resources</h3>
-        <p style="color:var(--muted);margin-top:0;">These are sorted for this audience, not just listed. Some are ideal now, some later, and some are only for technically stronger learners.</p>
-        <div class="resource-filter">
-          <button class="active" onclick="filterResources('all', this)">All</button>
-          <button onclick="filterResources('core', this)">Core now</button>
-          <button onclick="filterResources('later', this)">Later</button>
-          <button onclick="filterResources('advanced', this)">Advanced only</button>
-          <button onclick="filterResources('skip', this)">Low priority for this audience</button>
+      <section class="resource-hub" id="resourceHub">
+        <h3 style="margin:0 0 8px;">Recommended Anthropic Academy resources</h3>
+        <p style="margin:0;color:var(--muted);">These are sorted by suitability for this exact audience. Some are ideal now, some later, and some are only relevant for more technical learners or specific enterprise stacks.</p>
+        <div class="resource-filters" style="margin-top:14px;">
+          <button class="pill-btn active" onclick="filterResources('all', this)">All</button>
+          <button class="pill-btn" onclick="filterResources('core', this)">Core now</button>
+          <button class="pill-btn" onclick="filterResources('later', this)">Later</button>
+          <button class="pill-btn" onclick="filterResources('advanced', this)">Advanced only</button>
+          <button class="pill-btn" onclick="filterResources('skip', this)">Low priority</button>
         </div>
         <div class="resource-grid" id="resourceGrid"></div>
       </section>
 
-      <div class="toolbar">
+      <section class="toolbar">
         <div class="toolbar-left">
-          <button class="quick-action" onclick="openLesson('lesson-1')">Start learning</button>
-          <button class="ghost-btn" onclick="showOnlyIncomplete()">Show incomplete only</button>
-          <button class="ghost-btn" onclick="showAllLessons()">Show all modules</button>
+          <button class="btn" onclick="openModule('module-1')">Start learning</button>
+          <button class="ghost-btn" onclick="showIncompleteModules()">Show incomplete only</button>
+          <button class="ghost-btn" onclick="expandAllSlideshows()">Expand all slideshows</button>
         </div>
         <div class="toolbar-right">
           <div class="search-wrap">
-            <input id="lessonSearch" type="text" placeholder="Search modules, topics, or concepts…" oninput="filterLessons()" />
+            <input id="moduleSearch" type="text" placeholder="Search module titles, concepts, or topics…" oninput="filterModules()" />
           </div>
         </div>
-      </div>
+      </section>
 
-      <section id="lessonContainer"></section>
+      <section id="modulesWrap"></section>
 
-      <section class="capstone">
-        <h3>Capstone: choose one internal tool to prototype</h3>
-        <p style="color:var(--muted);margin-top:0;">Keep it intentionally small. The point is to finish something understandable, not to accidentally invent a haunted enterprise platform.</p>
-        <div class="quick-grid">
-          <div class="quick-card"><strong>Campaign QA helper</strong><p>Paste campaign copy and validate structure, placeholders, links, and localization issues.</p></div>
-          <div class="quick-card"><strong>Content adaptation tool</strong><p>Turn one master asset into versions for email, social, landing pages, and paid media.</p></div>
-          <div class="quick-card"><strong>Translation ops assistant</strong><p>Preserve formatting, image captions, and alt text while generating localized content drafts.</p></div>
-          <div class="quick-card"><strong>Brief cleaner</strong><p>Convert messy internal requests into structured marketing briefs with missing-information flags.</p></div>
-          <div class="quick-card"><strong>Asset tagging assistant</strong><p>Suggest categories, tags, campaign naming conventions, and file organization patterns.</p></div>
-          <div class="quick-card"><strong>Simple reporting explainer</strong><p>Turn exported metrics into plain-English summaries for stakeholders.</p></div>
+      <section class="summary-section">
+        <h3 style="margin:0;">Capstone directions</h3>
+        <div class="summary-grid">
+          <div class="summary-card"><strong>Campaign QA helper</strong><span>Validate placeholders, links, formatting, missing components, and localization issues.</span></div>
+          <div class="summary-card"><strong>Content adaptation tool</strong><span>Transform one source asset into multiple channel-specific outputs.</span></div>
+          <div class="summary-card"><strong>Translation ops assistant</strong><span>Preserve formatting and metadata while generating localized drafts.</span></div>
+          <div class="summary-card"><strong>Brief structurer</strong><span>Turn messy requests into structured internal briefs with missing-data flags.</span></div>
         </div>
       </section>
 
-      <section class="section-card">
-        <h3>What changes in v2</h3>
-        <div class="stat-grid">
-          <div class="stat-card"><strong>Modular structure</strong><span>Now grouped into a clearer beginner-to-advanced journey.</span></div>
-          <div class="stat-card"><strong>Audience-specific framing</strong><span>Examples now reflect operational marketing workflows instead of generic developer examples only.</span></div>
-          <div class="stat-card"><strong>Better UX</strong><span>Tabs, filters, journey view, searchable modules, and richer cards make the experience easier to navigate.</span></div>
-          <div class="stat-card"><strong>Smarter resource curation</strong><span>External Anthropic courses are ranked by suitability instead of dumped into one list.</span></div>
-        </div>
-      </section>
-
-      <p class="footer">Progress is stored locally in the browser. This version is optimized for internal sharing as a lightweight HTML training module.</p>
+      <p class="footer">This version stores progress locally in the browser and is designed to feel like a lightweight internal academy experience.</p>
     </main>
   </div>
 
   <script>
-    const RESOURCE_DATA = [
-      {
-        title: 'Claude 101',
-        url: 'https://anthropic.skilljar.com/claude-101',
-        category: 'core',
-        stage: 'Beginner',
-        fit: 'High fit',
-        reason: 'Best starting point for non-technical teammates. Focuses on everyday use of Claude and core features before code-heavy topics.',
-        tags: ['AI basics', 'Claude basics', 'Beginner']
-      },
-      {
-        title: 'AI Fluency: Framework & Foundations',
-        url: 'https://anthropic.skilljar.com/ai-fluency-framework-foundations',
-        category: 'core',
-        stage: 'Beginner',
-        fit: 'High fit',
-        reason: 'Strong conceptual foundation for safe, effective, and ethical AI collaboration. Excellent before technical implementation.',
-        tags: ['AI fluency', 'Prompting', 'Thinking skills']
-      },
-      {
-        title: 'Claude Code in Action',
-        url: 'https://anthropic.skilljar.com/claude-code-in-action',
-        category: 'later',
-        stage: 'Early intermediate',
-        fit: 'High fit later',
-        reason: 'Very relevant once learners understand basic software concepts and are ready to see Claude Code in a real workflow.',
-        tags: ['Claude Code', 'Workflow', 'Hands-on']
-      },
-      {
-        title: 'Building with the Claude API',
-        url: 'https://anthropic.skilljar.com/claude-with-the-anthropic-api',
-        category: 'later',
-        stage: 'Intermediate',
-        fit: 'Use after fundamentals',
-        reason: 'Comprehensive and valuable, but clearly developer-oriented and expects Python comfort. Better after learners understand app architecture and basic code.',
-        tags: ['API', 'Apps', 'Prompting', 'RAG', 'Agents']
-      },
-      {
-        title: 'Introduction to Model Context Protocol',
-        url: 'https://anthropic.skilljar.com/introduction-to-model-context-protocol',
-        category: 'advanced',
-        stage: 'Intermediate to advanced',
-        fit: 'Useful later',
-        reason: 'Important conceptually, but it expects Python knowledge and is not the first thing this audience needs.',
-        tags: ['MCP', 'Tools', 'Integrations']
-      },
-      {
-        title: 'Model Context Protocol: Advanced Topics',
-        url: 'https://anthropic.skilljar.com/model-context-protocol-advanced-topics',
-        category: 'advanced',
-        stage: 'Advanced',
-        fit: 'Advanced only',
-        reason: 'Production-oriented deep dive. Strong material, but too technical for the main beginner path.',
-        tags: ['MCP', 'Advanced', 'Production']
-      },
-      {
-        title: 'Introduction to Agent Skills',
-        url: 'https://anthropic.skilljar.com/introduction-to-agent-skills',
-        category: 'later',
-        stage: 'Intermediate',
-        fit: 'Relevant after Claude Code basics',
-        reason: 'Useful once learners already understand Claude Code and want reusable instructions and workflow patterns.',
-        tags: ['Skills', 'Claude Code', 'Automation']
-      },
-      {
-        title: 'Teaching AI Fluency',
-        url: 'https://anthropic.skilljar.com/teaching-ai-fluency',
-        category: 'skip',
-        stage: 'Specialized',
-        fit: 'Low priority',
-        reason: 'Good for facilitators or trainers, but not core for an operational marketing team learning to build.',
-        tags: ['Teaching', 'Facilitation']
-      },
-      {
-        title: 'Claude with Amazon Bedrock',
-        url: 'https://anthropic.skilljar.com/claude-in-amazon-bedrock',
-        category: 'skip',
-        stage: 'Specialized',
-        fit: 'Low priority unless your stack requires it',
-        reason: 'Platform-specific. Useful only if your organization already runs Claude through AWS Bedrock.',
-        tags: ['AWS', 'Bedrock', 'Enterprise stack']
-      },
-      {
-        title: 'Claude with Google Cloud Vertex AI',
-        url: 'https://anthropic.skilljar.com/claude-with-google-vertex',
-        category: 'skip',
-        stage: 'Specialized',
-        fit: 'Low priority unless your stack requires it',
-        reason: 'Platform-specific. Strong only for teams already building on Google Cloud Vertex AI.',
-        tags: ['Vertex AI', 'Google Cloud', 'Enterprise stack']
-      },
-      {
-        title: 'AI Fluency for Students',
-        url: 'https://anthropic.skilljar.com/ai-fluency-for-students',
-        category: 'skip',
-        stage: 'Specialized',
-        fit: 'Low priority',
-        reason: 'Audience-specific and not tailored to operational business workflows.',
-        tags: ['Students', 'AI fluency']
-      },
-      {
-        title: 'AI Fluency for Educators',
-        url: 'https://anthropic.skilljar.com/ai-fluency-for-educators',
-        category: 'skip',
-        stage: 'Specialized',
-        fit: 'Low priority',
-        reason: 'Useful in education settings, but outside the main needs of this team.',
-        tags: ['Educators', 'AI fluency']
-      },
-      {
-        title: 'AI Fluency for Nonprofits',
-        url: 'https://anthropic.skilljar.com/ai-fluency-for-nonprofits',
-        category: 'skip',
-        stage: 'Specialized',
-        fit: 'Low priority',
-        reason: 'Mission-oriented and sector-specific. Not the best use of training time for this audience.',
-        tags: ['Nonprofits', 'AI fluency']
-      }
+    const RESOURCES = [
+      { title: 'Claude 101', url: 'https://anthropic.skilljar.com/claude-101', category: 'core', stage: 'Beginner', fit: 'High fit', reason: 'Best first stop for non-technical learners who need to understand Claude before moving into technical build work.', tags: ['Claude basics', 'Beginner', 'AI fluency'] },
+      { title: 'AI Fluency: Framework & Foundations', url: 'https://anthropic.skilljar.com/ai-fluency-framework-foundations', category: 'core', stage: 'Beginner', fit: 'High fit', reason: 'Excellent conceptual foundation. Helps the team learn how to work with AI more intentionally and critically.', tags: ['AI fluency', 'Foundations', 'Prompting'] },
+      { title: 'Claude Code in Action', url: 'https://anthropic.skilljar.com/claude-code-in-action', category: 'later', stage: 'Early intermediate', fit: 'High fit later', reason: 'Very relevant after software basics. More useful once the team understands what code, projects, and workflows actually are.', tags: ['Claude Code', 'Workflow', 'Hands-on'] },
+      { title: 'Claude with the Anthropic API', url: 'https://anthropic.skilljar.com/claude-with-the-anthropic-api', category: 'later', stage: 'Intermediate', fit: 'Use after fundamentals', reason: 'Strong course, but more developer-oriented. Best after learners understand app architecture and basic code ideas.', tags: ['API', 'Apps', 'Builders'] },
+      { title: 'Introduction to Agent Skills', url: 'https://anthropic.skilljar.com/introduction-to-agent-skills', category: 'later', stage: 'Intermediate', fit: 'Useful later', reason: 'Helpful once learners understand Claude Code and are ready to structure repeatable workflows more deliberately.', tags: ['Skills', 'Claude Code', 'Automation'] },
+      { title: 'Introduction to Model Context Protocol', url: 'https://anthropic.skilljar.com/introduction-to-model-context-protocol', category: 'advanced', stage: 'Intermediate to advanced', fit: 'Useful later', reason: 'Conceptually important, but too technical for the opening phase of this journey.', tags: ['MCP', 'Integrations', 'Advanced concepts'] },
+      { title: 'Model Context Protocol: Advanced Topics', url: 'https://anthropic.skilljar.com/model-context-protocol-advanced-topics', category: 'advanced', stage: 'Advanced', fit: 'Advanced only', reason: 'Production-oriented and too technical for the main learning path. Great only for deeper technical expansion.', tags: ['MCP', 'Production', 'Advanced'] },
+      { title: 'Teaching AI Fluency', url: 'https://anthropic.skilljar.com/teaching-ai-fluency', category: 'skip', stage: 'Specialized', fit: 'Low priority', reason: 'Useful for facilitators and trainers, but not a core part of this team’s build journey.', tags: ['Teaching', 'Facilitation'] },
+      { title: 'Claude in Amazon Bedrock', url: 'https://anthropic.skilljar.com/claude-in-amazon-bedrock', category: 'skip', stage: 'Specialized', fit: 'Low priority', reason: 'Platform-specific and only worth prioritizing if your organization actually uses AWS Bedrock.', tags: ['AWS', 'Bedrock', 'Enterprise'] },
+      { title: 'Claude with Google Vertex', url: 'https://anthropic.skilljar.com/claude-with-google-vertex', category: 'skip', stage: 'Specialized', fit: 'Low priority', reason: 'Platform-specific and only relevant if your organization is building around Google Cloud Vertex AI.', tags: ['Vertex AI', 'Google Cloud', 'Enterprise'] },
+      { title: 'AI Fluency for Students', url: 'https://anthropic.skilljar.com/ai-fluency-for-students', category: 'skip', stage: 'Specialized', fit: 'Low priority', reason: 'Not tailored to business operations or internal workflow building.', tags: ['Students', 'AI fluency'] },
+      { title: 'AI Fluency for Educators', url: 'https://anthropic.skilljar.com/ai-fluency-for-educators', category: 'skip', stage: 'Specialized', fit: 'Low priority', reason: 'Audience-specific and not central for this training path.', tags: ['Educators', 'AI fluency'] },
+      { title: 'AI Fluency for Nonprofits', url: 'https://anthropic.skilljar.com/ai-fluency-for-nonprofits', category: 'skip', stage: 'Specialized', fit: 'Low priority', reason: 'Useful for that sector, but not the best use of time for this audience.', tags: ['Nonprofits', 'AI fluency'] }
     ];
 
-    const JOURNEY_DATA = [
-      {
-        level: '1',
-        label: 'Foundation',
-        title: 'AI fluency before code fluency',
-        summary: 'Start with Claude 101 and AI Fluency: Framework & Foundations. The team needs better mental models before touching technical systems.'
-      },
-      {
-        level: '2',
-        label: 'Beginner build literacy',
-        title: 'Understand apps, workflows, and prompting',
-        summary: 'Use this internal course to learn software basics, app architecture, operational marketing use cases, and structured prompting.'
-      },
-      {
-        level: '3',
-        label: 'Early intermediate',
-        title: 'See Claude Code in action',
-        summary: 'Once the team understands code basics, Claude Code in Action becomes much more useful and much less visually intimidating.'
-      },
-      {
-        level: '4',
-        label: 'Intermediate builder',
-        title: 'Move into APIs, skills, and mini apps',
-        summary: 'After small projects, learners can begin using Building with the Claude API and Introduction to Agent Skills as reinforcement.'
-      },
-      {
-        level: '5',
-        label: 'Advanced expansion',
-        title: 'Integrations, MCP, and platform-specific stacks',
-        summary: 'Only after the basics are stable should selected learners explore MCP, Bedrock, or Vertex AI materials.'
-      }
+    const JOURNEY = [
+      { level: 'Level 1', title: 'AI fluency first', text: 'Build judgment, prompting discipline, and realistic expectations before trying to build anything technical.' },
+      { level: 'Level 2', title: 'Software basics in plain English', text: 'Learn enough code and app vocabulary to stop feeling lost and start understanding technical conversations.' },
+      { level: 'Level 3', title: 'Small internal tools', text: 'Focus on narrow, useful, understandable apps for campaign ops, content adaptation, or workflow support.' },
+      { level: 'Level 4', title: 'Claude Code and APIs', text: 'Once the basics are stable, move into project workflows, safe edits, and beginner-friendly build patterns.' },
+      { level: 'Level 5', title: 'Agents and advanced integrations', text: 'Only later: beginner-safe agents, skills, MCP, or stack-specific cloud topics.' }
     ];
 
-    const LESSONS = [
+    const MODULES = [
       {
         id: 1,
-        module: 'Module 1',
-        title: 'AI fluency for operational marketers',
+        title: 'AI fluency for operational marketing teams',
         level: 'Beginner',
-        goal: 'Build a sensible mental model for AI collaboration before touching code-heavy topics.',
-        tags: ['AI fluency', 'Claude basics', 'Marketing ops'],
-        summary: [
-          'Your team does not need to start by coding. It needs to start by understanding what AI is good at, where it fails, and how to collaborate with it responsibly.',
-          'For an operational marketing team, AI fluency means being able to delegate well, describe work clearly, judge output critically, and work with repeatable workflows instead of vibes.'
-        ],
-        exampleTitle: 'Team example',
-        example: 'A campaign manager asks AI to adapt one promo asset into email, paid social, and landing page variants. A fluent user gives context, constraints, audience, channel goals, and brand guardrails instead of just saying: “make 3 versions.”',
-        demo: ['Compare a vague request with a structured request.', 'Identify what context was missing.', 'Discuss how poor prompting leads to poor operational output.'],
-        exercise: 'Take one recurring task from your team and rewrite it as a better AI brief with goal, context, constraints, and review criteria.',
-        homework: 'Write down three places where your team currently uses AI casually but could use it more systematically.',
-        quiz: {
-          question: 'What is the main point of AI fluency for this audience?',
-          options: [
-            'To make everyone sound technical as quickly as possible.',
-            'To collaborate with AI more effectively, safely, and critically in real work.',
-            'To replace all team judgment with generated output.'
-          ],
-          correct: 1,
-          feedback: 'Correct. The point is not performance theater. It is better collaboration, judgment, and workflow design.'
-        }
+        tags: ['AI fluency', 'Marketing ops', 'Foundations'],
+        goal: 'Build a healthy mental model for working with AI before touching code-heavy topics.',
+        slides: [
+          {
+            label: 'Big idea',
+            headline: 'Start with better judgment, not with fake technical confidence',
+            highlightTitle: 'Why this matters',
+            highlight: 'Your team does not need to become deeply technical on day one. It needs to become better at describing work, judging outputs, and creating repeatable AI workflows.',
+            leftTitle: 'Straight to the point',
+            left: [
+              'AI fluency means knowing what to ask, what to provide, what to review, and what not to trust blindly.',
+              'For marketing ops, this matters in campaign workflows, content adaptation, localization, QA, reporting, and internal coordination.',
+              'If the team skips this layer, it will keep using AI casually instead of strategically.'
+            ],
+            rightTitle: 'Team example',
+            right: 'A weak request says: “make 3 versions of this.” A fluent request says who the audience is, which channels matter, what tone is needed, what must stay unchanged, and how the result will be reviewed.'
+          },
+          {
+            label: 'Practice',
+            headline: 'Think like a better brief writer',
+            highlightTitle: 'Core rule',
+            highlight: 'Good prompting for work looks a lot like good briefing for people: clear goal, enough context, useful constraints, and explicit review standards.',
+            leftTitle: 'Try this',
+            leftList: [
+              'Pick one recurring team task.',
+              'Write the goal in one sentence.',
+              'Add the context AI would need.',
+              'Add what cannot change.',
+              'Add what a good output should look like.'
+            ],
+            rightTitle: 'Homework',
+            right: 'List three places where your team already uses AI, but in a way that still feels improvised or inconsistent.'
+          },
+          {
+            label: 'Quick check',
+            headline: 'Mini quiz',
+            quiz: {
+              question: 'What is the point of AI fluency here?',
+              options: [
+                'To sound technical quickly.',
+                'To collaborate with AI more effectively and critically in real workflows.',
+                'To stop reviewing outputs because AI is faster.'
+              ],
+              correct: 1,
+              feedback: 'Correct. The goal is stronger collaboration and judgment, not performative jargon.'
+            }
+          }
+        ]
       },
       {
         id: 2,
-        module: 'Module 2',
-        title: 'What Claude Code is — and where it actually fits',
+        title: 'What Claude Code is — and what it is not',
         level: 'Beginner',
-        goal: 'Understand Claude Code as a practical environment for building and editing software, not as magic.',
-        tags: ['Claude Code', 'Mental model', 'Environment'],
-        summary: [
-          'Claude Code is best understood as a smart working environment that helps inspect files, reason about a project, and make technical changes with guidance.',
-          'It becomes much more useful once your team understands the basics of software structure and how to ask for small, reviewable changes.'
-        ],
-        exampleTitle: 'Plain-English analogy',
-        example: 'Think of Claude Code as a smart collaborator working inside a project folder. It can help explore, explain, and modify the project, but it still benefits from clear instructions and human review.',
-        demo: ['Open a project folder.', 'Ask Claude Code to explain the structure.', 'Ask where the most important files live.', 'Avoid editing until the structure makes sense.'],
-        exercise: 'Describe the difference between Claude, Claude Code, and a software project in your own words.',
-        homework: 'List three things Claude Code can probably help with and three things your team should still review manually.',
-        quiz: {
-          question: 'Which statement is the healthiest mental model?',
-          options: [
-            'Claude Code is a magic chatbot that always knows the right architecture.',
-            'Claude Code is a powerful working environment, but humans still guide and review the work.',
-            'Claude Code makes software concepts unnecessary.'
-          ],
-          correct: 1,
-          feedback: 'Yes. Treat it as powerful and useful, but not mystical or automatically correct.'
-        }
+        tags: ['Claude Code', 'Mental model', 'Projects'],
+        goal: 'Understand where Claude Code fits and stop thinking about it as magic.',
+        slides: [
+          {
+            label: 'Big idea',
+            headline: 'Claude Code is a working environment, not a mystical oracle',
+            highlightTitle: 'Best mental model',
+            highlight: 'Claude is the intelligence. Claude Code is the environment. Your project is the real thing being explored or changed. You are still the one guiding and reviewing the work.',
+            leftTitle: 'What that means in practice',
+            left: [
+              'Claude Code can inspect project files, explain a codebase, and help implement changes.',
+              'It becomes much more useful when the project and the request are both reasonably clear.',
+              'It should be treated like a strong collaborator, not an infallible one.'
+            ],
+            rightTitle: 'Operational marketing example',
+            right: 'Think of Claude Code as helping refine an internal localization helper, a campaign QA tool, or a reporting formatter. It is not replacing the need to define what that tool should actually do.'
+          },
+          {
+            label: 'Walkthrough',
+            headline: 'How beginners should use it first',
+            highlightTitle: 'Healthy first move',
+            highlight: 'Read before editing. Ask for structure before asking for changes. Let Claude Code explain the project before you try to modify it.',
+            leftTitle: 'Suggested flow',
+            leftList: [
+              'Open a project folder.',
+              'Ask Claude Code to explain the structure.',
+              'Ask which files matter most.',
+              'Ask where the main workflow lives.',
+              'Only then request a tiny safe change.'
+            ],
+            rightTitle: 'What not to do',
+            right: 'Do not open an unfamiliar project and immediately ask for a huge rewrite. That is how people create work they do not understand and cannot maintain.'
+          },
+          {
+            label: 'Quick check',
+            headline: 'Mini quiz',
+            quiz: {
+              question: 'Which mental model is healthiest?',
+              options: [
+                'Claude Code automatically knows the right solution to every project.',
+                'Claude Code is a powerful environment and collaborator, but humans still guide and review the work.',
+                'Claude Code removes the need to understand software at all.'
+              ],
+              correct: 1,
+              feedback: 'Yes. Powerful, useful, and still something you should guide and review.'
+            }
+          }
+        ]
       },
       {
         id: 3,
-        module: 'Module 3',
-        title: 'Software in plain English: the minimum code concepts you need',
+        title: 'Software in plain English',
         level: 'Beginner',
-        goal: 'Remove the emotional fog around code by learning the minimum useful vocabulary.',
-        tags: ['Code basics', 'Variables', 'Functions', 'Inputs'],
-        summary: [
-          'You do not need to become an engineer overnight. You do need enough literacy to stop feeling lost every time you see code on screen.',
-          'Variables store values. Functions perform reusable logic. Inputs go in. Outputs come out. Conditions create decision points. That is enough to begin.'
-        ],
-        exampleTitle: 'Tiny code example',
-        example: `const campaignName = "Spring Launch";\n\nfunction describeCampaign(name) {\n  return "Campaign: " + name;\n}\n\nconsole.log(describeCampaign(campaignName));`,
-        demo: ['Point out the variable.', 'Point out the function.', 'Point out the input and output.', 'Translate the code into plain English.'],
-        exercise: 'Take a tiny snippet and label the variable, function, input, and output.',
-        homework: 'Create a glossary of 15 terms using your own words, not copied definitions.',
-        quiz: {
-          question: 'What is a function in beginner-friendly terms?',
-          options: [
-            'A reusable recipe that does something.',
-            'A type of folder.',
-            'A style setting inside a webpage.'
-          ],
-          correct: 0,
-          feedback: 'Correct. A function is reusable logic: a recipe you can call again when needed.'
-        }
+        tags: ['Code basics', 'Variables', 'Functions'],
+        goal: 'Learn the minimum useful code vocabulary so the screen stops looking hostile.',
+        slides: [
+          {
+            label: 'Big idea',
+            headline: 'You do not need to become an engineer to stop feeling lost',
+            highlightTitle: 'The minimum set',
+            highlight: 'A variable stores something. A function does something. An input comes in. An output comes out. A condition checks something. A loop repeats something.',
+            leftTitle: 'Why this matters',
+            left: [
+              'Most beginners are not blocked by complexity. They are blocked by unfamiliar words and the fear of not knowing what they mean.',
+              'Once the basic concepts become normal, the code becomes much less emotionally dramatic.'
+            ],
+            rightTitle: 'Tiny example',
+            rightCode: `const campaignName = "Spring Launch";\n\nfunction describeCampaign(name) {\n  return "Campaign: " + name;\n}\n\nconsole.log(describeCampaign(campaignName));`
+          },
+          {
+            label: 'Translation',
+            headline: 'Translate code into plain language',
+            highlightTitle: 'Simple reading habit',
+            highlight: 'When you see code, do not ask “Do I fully understand this?” first. Ask “What is stored here? What is being done? What goes in? What comes out?”',
+            leftTitle: 'Practice prompts',
+            leftList: [
+              'Where is the variable?',
+              'Where is the function?',
+              'What is the input?',
+              'What is the output?',
+              'What is the code trying to accomplish overall?'
+            ],
+            rightTitle: 'Homework',
+            right: 'Build a tiny glossary of 15 words in your own language. Do not copy textbook definitions.'
+          },
+          {
+            label: 'Quick check',
+            headline: 'Mini quiz',
+            quiz: {
+              question: 'What is a function in plain English?',
+              options: [
+                'A reusable recipe that does something.',
+                'A kind of design file.',
+                'A folder for JavaScript only.'
+              ],
+              correct: 0,
+              feedback: 'Correct. A function is reusable logic: a recipe you can run again.'
+            }
+          }
+        ]
       },
       {
         id: 4,
-        module: 'Module 4',
         title: 'How apps work: frontend, backend, data, and API calls',
         level: 'Beginner',
+        tags: ['Frontend', 'Backend', 'APIs', 'Architecture'],
         goal: 'Understand what an app actually is before trying to build one.',
-        tags: ['Frontend', 'Backend', 'Database', 'API'],
-        summary: [
-          'Most non-technical teams imagine a product as one blob. It is much easier once you see the parts: interface, logic, data, and system-to-system communication.',
-          'Once your team gets this, conversations with developers and AI tools become dramatically better.'
-        ],
-        exampleTitle: 'Marketing-team example',
-        example: 'A translation-ops tool might have a frontend where someone pastes content, a backend that sends requests to Claude, and saved outputs stored for revision later.',
-        demo: ['Map a simple tool into frontend, backend, and data.', 'Show where Claude fits into the flow.', 'Explain what an API call really is.'],
-        exercise: 'Pick one team workflow and sketch where the interface, logic, data, and AI request would live.',
-        homework: 'Write a simple step-by-step explanation of how a content adaptation app would work behind the scenes.',
-        quiz: {
-          question: 'What is the backend?',
-          options: [
-            'The visual part the user clicks on.',
-            'The logic and processing behind the scenes.',
-            'A synonym for design system.'
-          ],
-          correct: 1,
-          feedback: 'Exactly. The backend is where the behind-the-scenes logic happens.'
-        }
+        slides: [
+          {
+            label: 'Big idea',
+            headline: 'An app is not one blob. It is a system of parts.',
+            highlightTitle: 'The useful model',
+            highlight: 'Frontend is what users see. Backend is the logic behind the scenes. Data is what gets stored. APIs are how systems talk to each other.',
+            leftTitle: 'Why this matters for your team',
+            left: [
+              'Once your team can describe a workflow this way, technical conversations become dramatically better.',
+              'It also helps you see where Claude fits: often as part of a backend or workflow layer, not as the whole product.'
+            ],
+            rightTitle: 'Marketing example',
+            right: 'A translation helper might have a form where the user pastes content, a backend that sends the content to Claude, and a place to save the localized version for review later.'
+          },
+          {
+            label: 'Map it',
+            headline: 'Practice breaking a workflow into parts',
+            highlightTitle: 'Good product thinking',
+            highlight: 'The goal is not to sound technical. The goal is to describe where the user interacts, where the logic happens, where the data lives, and where the external model call happens.',
+            leftTitle: 'Try this exercise',
+            leftList: [
+              'Pick one internal workflow.',
+              'Identify the user entry point.',
+              'Identify the logic behind it.',
+              'Identify what data must be stored.',
+              'Identify whether Claude is called and where.'
+            ],
+            rightTitle: 'Straight answer',
+            right: 'If your team skips this thinking, it will keep describing products vaguely and wondering why implementation becomes messy.'
+          },
+          {
+            label: 'Quick check',
+            headline: 'Mini quiz',
+            quiz: {
+              question: 'What is the backend?',
+              options: [
+                'The visible interface users click on.',
+                'The behind-the-scenes logic and processing layer.',
+                'The brand guideline document.'
+              ],
+              correct: 1,
+              feedback: 'Exactly. Backend means the logic and processing behind the user-facing interface.'
+            }
+          }
+        ]
       },
       {
         id: 5,
-        module: 'Module 5',
-        title: 'Prompting as workflow design, not wishful thinking',
+        title: 'Prompting as workflow design',
         level: 'Beginner',
-        goal: 'Learn how to structure requests in a way that supports useful implementation work.',
-        tags: ['Prompting', 'Briefing', 'Workflow'],
-        summary: [
-          'A vague request creates vague results. In technical work, strong prompting looks a lot like strong briefing.',
-          'The most useful prompt structure for this audience is objective, context, constraints, success criteria, and preferred workflow.'
-        ],
-        exampleTitle: 'Bad vs better',
-        example: 'Bad: “Build me a cool app for marketing.” Better: “Inspect this project first. Then add one text input and one submit button for campaign copy. Do not change styling yet. Explain your changes afterward.”',
-        demo: ['Rewrite a vague request live.', 'Show how scoping improves outcomes.', 'Discuss why reviewable changes are safer.'],
-        exercise: 'Rewrite three team requests into better Claude Code prompts.',
-        homework: 'Draft five reusable prompt templates your team could use for recurring operations work.',
-        quiz: {
-          question: 'What makes a prompt more useful in build workflows?',
-          options: [
-            'Lots of enthusiasm and no constraints.',
-            'Clear goal, context, constraints, and success criteria.',
-            'Keeping the task mysterious so the AI can be creative.'
-          ],
-          correct: 1,
-          feedback: 'Correct. Clarity beats drama almost every time.'
-        }
+        tags: ['Prompting', 'Briefing', 'Constraints'],
+        goal: 'Learn how to write prompts that support real implementation work.',
+        slides: [
+          {
+            label: 'Big idea',
+            headline: 'A good build prompt should feel like a good brief',
+            highlightTitle: 'The five-part structure',
+            highlight: 'Useful prompts for build work include five things: objective, context, constraints, success criteria, and preferred workflow.',
+            leftTitle: 'Why this matters',
+            left: [
+              'A vague prompt creates vague work.',
+              'A giant prompt full of ambition but no structure creates messy output.',
+              'A smaller, sharper request creates work you can actually review.'
+            ],
+            rightTitle: 'Bad vs better',
+            right: 'Bad: “Build a cool app for marketing.” Better: “Inspect this project first. Then add one text input and one submit button for campaign copy. Do not change styling yet. Explain your changes afterward.”'
+          },
+          {
+            label: 'Practice',
+            headline: 'Turn vague team requests into useful prompts',
+            highlightTitle: 'The key habit',
+            highlight: 'Before asking for implementation, clarify what the system should do, what it should not do, and how you will know it worked.',
+            leftTitle: 'Prompt template',
+            leftCode: `Objective: What should change?\nContext: Where in the project does this live?\nConstraints: What must not break or change?\nSuccess criteria: What should be true when this is done?\nWorkflow: Should Claude inspect, plan, and then edit?`,
+            rightTitle: 'Homework',
+            right: 'Write five reusable prompts for recurring operational marketing workflows: campaign QA, content formatting, localization, brief cleanup, and reporting summaries.'
+          },
+          {
+            label: 'Quick check',
+            headline: 'Mini quiz',
+            quiz: {
+              question: 'What improves a build prompt most?',
+              options: [
+                'More excitement and fewer specifics.',
+                'Clear goal, context, constraints, and review criteria.',
+                'Making it open-ended so the AI can surprise you.'
+              ],
+              correct: 1,
+              feedback: 'Correct. Strong implementation prompts are structured, not theatrical.'
+            }
+          }
+        ]
       },
       {
         id: 6,
-        module: 'Module 6',
         title: 'Your first tiny internal tool',
         level: 'Beginner',
-        goal: 'Understand the full shape of a small useful app your team could actually build.',
-        tags: ['Mini app', 'Internal tools', 'User flow'],
-        summary: [
-          'The best first project is small, useful, and narrow. For this audience, that often means a workflow helper rather than a customer-facing product.',
-          'Examples include a copy adaptation assistant, campaign QA helper, translation formatting aid, or brief cleaner.'
-        ],
-        exampleTitle: 'Starter build concept',
-        example: 'A campaign copy helper with one text area, one button, one set of instructions, and one result panel. Small enough to understand, useful enough to matter.',
-        demo: ['Define the user input.', 'Define the desired output.', 'Define one optional setting.', 'Define what success looks like.'],
-        exercise: 'Pick one internal tool idea and define its input, output, and one non-negotiable constraint.',
-        homework: 'Write a one-paragraph brief for your first internal tool.',
-        quiz: {
-          question: 'What is the best characteristic of a first internal tool?',
-          options: [
-            'Huge scope and multiple autonomous systems.',
-            'Small enough to understand from end to end.',
-            'So abstract that no one can test it.'
-          ],
-          correct: 1,
-          feedback: 'Yes. Small enough to understand is the whole point at this stage.'
-        }
+        tags: ['Mini apps', 'Internal tools', 'User flow'],
+        goal: 'Define a small internal tool your team could realistically prototype.',
+        slides: [
+          {
+            label: 'Big idea',
+            headline: 'Your first tool should be useful, narrow, and understandable',
+            highlightTitle: 'Do not overbuild the first version',
+            highlight: 'A good first tool solves one real operational problem in a way the team can understand end to end.',
+            leftTitle: 'Strong candidate ideas',
+            leftList: [
+              'Campaign QA helper',
+              'Content adaptation assistant',
+              'Translation formatting helper',
+              'Reporting explainer',
+              'Brief structuring tool'
+            ],
+            rightTitle: 'Why small scope wins',
+            right: 'If the team tries to jump straight into a giant autonomous system, it usually ends up with a half-understood project no one wants to maintain.'
+          },
+          {
+            label: 'Define it',
+            headline: 'Describe the app before building it',
+            highlightTitle: 'The three essentials',
+            highlight: 'For the first version, define the input, the output, and one non-negotiable constraint. That is enough to begin productively.',
+            leftTitle: 'Simple structure',
+            leftList: [
+              'What does the user provide?',
+              'What should the system return?',
+              'What must stay consistent or safe?',
+              'How will someone review the result?'
+            ],
+            rightTitle: 'Homework',
+            right: 'Write a one-paragraph brief for the first internal tool your team would actually benefit from.'
+          },
+          {
+            label: 'Quick check',
+            headline: 'Mini quiz',
+            quiz: {
+              question: 'What is the healthiest first project?',
+              options: [
+                'A huge autonomous system with multiple moving parts.',
+                'A small useful tool that the team can understand completely.',
+                'A tool so abstract that nobody can test it.'
+              ],
+              correct: 1,
+              feedback: 'Yes. The first win should be understandable, not grandiose.'
+            }
+          }
+        ]
       },
       {
         id: 7,
-        module: 'Module 7',
-        title: 'Terminal, files, and basic Git without the melodrama',
+        title: 'Terminal and Git without the melodrama',
         level: 'Beginner to early intermediate',
-        goal: 'Get comfortable with the local project environment and basic safety practices.',
-        tags: ['Terminal', 'Git', 'Files', 'Diffs'],
-        summary: [
-          'The terminal is just a text interface. Git is a safety system. Neither requires a cape.',
-          'For this audience, the goal is not terminal mastery. It is enough confidence to open a project, inspect files, review changes, and avoid losing work.'
-        ],
-        exampleTitle: 'Useful starter commands',
-        example: `cd my-project\nls\ngit status\ngit diff\nclaude`,
-        demo: ['Navigate into a folder.', 'List files.', 'Inspect changes with git status and git diff.', 'Explain why review before trust matters.'],
-        exercise: 'Practice locating a folder and describing what changed in a file using a diff.',
-        homework: 'Write a short note explaining why version control matters even if AI is helping.',
-        quiz: {
-          question: 'Why is Git especially useful here?',
-          options: [
-            'Because it makes code magically correct.',
-            'Because it lets you inspect and recover changes safely.',
-            'Because it only matters to senior developers.'
-          ],
-          correct: 1,
-          feedback: 'Right. Git is the safety net that makes experimentation much less reckless.'
-        }
+        tags: ['Terminal', 'Git', 'Safety'],
+        goal: 'Get comfortable with the project environment and safe iteration habits.',
+        slides: [
+          {
+            label: 'Big idea',
+            headline: 'The terminal is just a text interface. Git is just a safety net.',
+            highlightTitle: 'Demystify both',
+            highlight: 'You do not need deep command-line mastery. You need enough comfort to open a project, inspect files, and review changes safely.',
+            leftTitle: 'Useful starter commands',
+            leftCode: `cd my-project\nls\ngit status\ngit diff\nclaude`,
+            rightTitle: 'Straight explanation',
+            right: 'Git matters even more when using AI tools, because changes can happen quickly. If you do not inspect diffs, you will eventually trust something you should have checked.'
+          },
+          {
+            label: 'Healthy habit',
+            headline: 'Review before trust',
+            highlightTitle: 'One habit that saves regret',
+            highlight: 'Before celebrating a change, inspect the diff. See what actually changed in the files. This is one of the simplest quality-control habits in software work.',
+            leftTitle: 'What to look for',
+            leftList: [
+              'Did only the intended file change?',
+              'Did the logic change more than expected?',
+              'Did the structure become messier?',
+              'Did any text or labels shift unintentionally?'
+            ],
+            rightTitle: 'Homework',
+            right: 'Write a short note explaining why Git matters even when AI is helping with edits.'
+          },
+          {
+            label: 'Quick check',
+            headline: 'Mini quiz',
+            quiz: {
+              question: 'Why is Git so useful here?',
+              options: [
+                'Because it makes code automatically correct.',
+                'Because it helps you inspect and recover changes safely.',
+                'Because only senior engineers are allowed to use it.'
+              ],
+              correct: 1,
+              feedback: 'Right. Git gives you visibility and recovery, which makes experimentation much safer.'
+            }
+          }
+        ]
       },
       {
         id: 8,
-        module: 'Module 8',
         title: 'Claude Code in real team workflows',
         level: 'Early intermediate',
-        goal: 'Connect Claude Code to operational marketing use cases instead of abstract developer talk.',
-        tags: ['Claude Code', 'Workflow', 'Team use cases'],
-        summary: [
-          'Claude Code becomes easier to appreciate when attached to real work: improving a small tool, adjusting a form, changing output logic, or making a workflow less manual.',
-          'The practical habit to learn is this: inspect first, plan second, edit third, review fourth.'
-        ],
-        exampleTitle: 'Operational use cases',
-        example: 'Examples include modifying a content formatter, adding a localization toggle, fixing a broken field in a QA helper, or changing how outputs are structured for campaign reporting.',
-        demo: ['Ask Claude Code to explain a repo.', 'Ask for a short plan before editing.', 'Make one tiny change.', 'Review the result and the diff.'],
-        exercise: 'Choose one realistic change request a marketer might make to an internal tool.',
-        homework: 'Write the exact prompt you would use to request a tiny safe edit inside a project.',
-        quiz: {
-          question: 'Which sequence is healthiest?',
-          options: [
-            'Edit first, understand later.',
-            'Inspect, plan, edit, review.',
-            'Ask for a total rewrite immediately.'
-          ],
-          correct: 1,
-          feedback: 'Exactly. Slow enough to understand, fast enough to stay useful.'
-        }
+        tags: ['Claude Code', 'Workflows', 'Internal tools'],
+        goal: 'Connect Claude Code to realistic operational marketing use cases.',
+        slides: [
+          {
+            label: 'Big idea',
+            headline: 'Claude Code becomes much less intimidating when attached to a real task',
+            highlightTitle: 'Practical use cases',
+            highlight: 'Think in terms of modifying a small content helper, adding a formatting option, fixing a broken field, or adjusting a workflow tool—not in terms of building a universe from scratch.',
+            leftTitle: 'Useful examples',
+            leftList: [
+              'Add a localization toggle',
+              'Fix a broken text field',
+              'Change output formatting for reports',
+              'Add a validation step to a QA tool'
+            ],
+            rightTitle: 'Best sequence',
+            right: 'Inspect first. Ask for a plan second. Edit third. Review fourth. This keeps the collaboration both safe and useful.'
+          },
+          {
+            label: 'Suggested workflow',
+            headline: 'How to request a small safe change',
+            highlightTitle: 'The safest ask',
+            highlight: 'Good beginner collaboration is about small, reviewable edits. You are training both the tool and yourself to work in a controlled way.',
+            leftTitle: 'Prompt pattern',
+            leftCode: `Please inspect this project first.\nThen tell me where the relevant logic lives.\nThen propose a short plan.\nThen make one small change only.\nFinally, explain what changed and what I should review.`,
+            rightTitle: 'Homework',
+            right: 'Write the exact prompt you would use to request one tiny edit to an internal workflow tool.'
+          },
+          {
+            label: 'Quick check',
+            headline: 'Mini quiz',
+            quiz: {
+              question: 'Which sequence is healthiest?',
+              options: [
+                'Edit first and understand later.',
+                'Inspect, plan, edit, review.',
+                'Ask for a total rewrite immediately.'
+              ],
+              correct: 1,
+              feedback: 'Exactly. Slow enough to understand, fast enough to remain useful.'
+            }
+          }
+        ]
       },
       {
         id: 9,
-        module: 'Module 9',
-        title: 'Apps vs agents: the distinction that saves everyone time',
+        title: 'Apps vs agents',
         level: 'Intermediate',
-        goal: 'Understand when you need a simple app and when you are moving into agent behavior.',
-        tags: ['Apps', 'Agents', 'Workflow'],
-        summary: [
-          'An app usually follows a controlled flow. An agent receives a broader goal, may decide intermediate steps, and may use tools in a loop.',
-          'Many teams say they want an agent when they actually need a small app. That confusion wastes weeks.'
-        ],
-        exampleTitle: 'Useful contrast',
-        example: 'App: rewrite this campaign brief into channel-specific copy. Agent: inspect a folder of campaign assets, classify them, find missing metadata, and propose next actions.',
-        demo: ['Compare a fixed workflow against a goal-driven workflow.', 'Discuss why not every problem needs an agent.'],
-        exercise: 'Classify five internal ideas as app, agent, or unclear.',
-        homework: 'Invent one team app idea and one team agent idea, then explain why they are different.',
-        quiz: {
-          question: 'What most strongly suggests agent behavior?',
-          options: [
-            'A system that follows one fixed form submission flow.',
-            'A system that can choose steps and use tools to pursue a goal.',
-            'A static webpage with text on it.'
-          ],
-          correct: 1,
-          feedback: 'Correct. Dynamic, goal-driven, tool-using behavior is the clue.'
-        }
+        tags: ['Apps', 'Agents', 'Scope'],
+        goal: 'Understand the difference so the team stops over-asking for agents.',
+        slides: [
+          {
+            label: 'Big idea',
+            headline: 'Not every problem needs an agent',
+            highlightTitle: 'The important distinction',
+            highlight: 'An app usually follows a controlled flow. An agent receives a broader goal, may decide intermediate steps, and may use tools in a loop.',
+            leftTitle: 'Why this matters',
+            left: [
+              'Teams often say they want an agent when they really want a simple workflow app.',
+              'That confusion wastes time, increases scope, and makes the project harder than it needs to be.'
+            ],
+            rightTitle: 'Clear contrast',
+            right: 'App: rewrite a campaign brief into channel-specific copy. Agent: inspect a folder of assets, classify them, detect missing metadata, and propose next actions.'
+          },
+          {
+            label: 'Decision-making',
+            headline: 'Ask the scope question first',
+            highlightTitle: 'Useful test',
+            highlight: 'If the system follows one predictable path from user input to output, you probably need an app. If it needs to decide steps and use tools dynamically, you may be entering agent territory.',
+            leftTitle: 'Exercise',
+            leftList: [
+              'Choose a team workflow.',
+              'Ask whether the flow is fixed or dynamic.',
+              'Ask whether tools need to be used in sequence.',
+              'Ask whether the system needs to decide what to do next.'
+            ],
+            rightTitle: 'Homework',
+            right: 'Invent one app idea and one agent idea for your team, then explain why they are different.'
+          },
+          {
+            label: 'Quick check',
+            headline: 'Mini quiz',
+            quiz: {
+              question: 'What most strongly suggests agent behavior?',
+              options: [
+                'A fixed form submission flow.',
+                'A goal-driven system that can choose steps and use tools.',
+                'A static HTML page with no logic.'
+              ],
+              correct: 1,
+              feedback: 'Correct. Dynamic, goal-driven, tool-using behavior is the real clue.'
+            }
+          }
+        ]
       },
       {
         id: 10,
-        module: 'Module 10',
         title: 'APIs, skills, and reusable building blocks',
         level: 'Intermediate',
-        goal: 'Introduce the next layer of technical power without overwhelming beginners.',
-        tags: ['API', 'Skills', 'Reusable patterns'],
-        summary: [
-          'Once the team understands software basics, it can start learning what an API does, how a backend calls Claude, and why reusable instructions or skills matter.',
-          'The point is not that everyone becomes a developer. The point is that the team can design and evaluate solutions more intelligently.'
-        ],
-        exampleTitle: 'Plain-English view',
-        example: 'An API is a structured way for systems to talk. A skill is a reusable instruction pattern. Together they help turn messy repeated work into a more stable system.',
-        demo: ['Explain what happens when an app sends content to Claude.', 'Discuss when a reusable prompt becomes a skill or repeatable workflow.'],
-        exercise: 'Identify one recurring workflow in your team that should be standardized as a reusable pattern.',
-        homework: 'Write a one-page explanation of how an AI-backed internal tool might call a model through an API.',
-        quiz: {
-          question: 'Why do reusable patterns matter?',
-          options: [
-            'Because improvising the same task forever is efficient.',
-            'Because repeatable instructions reduce inconsistency and save time.',
-            'Because they make user needs less important.'
-          ],
-          correct: 1,
-          feedback: 'Exactly. Reusable patterns make workflows more stable and teachable.'
-        }
+        tags: ['API', 'Skills', 'Reuse'],
+        goal: 'Introduce the next layer of technical structure without overwhelming the audience.',
+        slides: [
+          {
+            label: 'Big idea',
+            headline: 'Reusable systems beat repeated improvisation',
+            highlightTitle: 'The practical point',
+            highlight: 'APIs let systems talk to models and services. Skills or reusable instructions help stabilize how repeated workflows are executed.',
+            leftTitle: 'Why this matters for ops',
+            left: [
+              'If the team keeps reinventing the same prompt structure, the workflow stays fragile.',
+              'Reusable patterns save time, reduce inconsistency, and make work easier to train across the team.'
+            ],
+            rightTitle: 'Plain-English example',
+            right: 'A content adaptation workflow can move from “prompt it differently every time” to a repeatable pattern with clear inputs, consistent outputs, and reusable guidance.'
+          },
+          {
+            label: 'Practical exercise',
+            headline: 'Standardize one recurring workflow',
+            highlightTitle: 'Good candidate',
+            highlight: 'Choose a repeated internal task and define its stable input, stable output, and stable rules. That is how improvisation starts becoming a system.',
+            leftTitle: 'Try this',
+            leftList: [
+              'Choose one repeated task.',
+              'Define the exact input.',
+              'Define the desired output structure.',
+              'Define the constraints or brand rules.',
+              'Define how results are reviewed.'
+            ],
+            rightTitle: 'Homework',
+            right: 'Write one page explaining how an internal AI tool might call Claude through an API and why a stable pattern would help your team.'
+          },
+          {
+            label: 'Quick check',
+            headline: 'Mini quiz',
+            quiz: {
+              question: 'Why do reusable patterns matter?',
+              options: [
+                'Because improvising everything forever is efficient.',
+                'Because repeatable instructions reduce inconsistency and save time.',
+                'Because user needs become irrelevant.'
+              ],
+              correct: 1,
+              feedback: 'Exactly. Reusable patterns are how a workflow becomes teachable and stable.'
+            }
+          }
+        ]
       },
       {
         id: 11,
-        module: 'Module 11',
         title: 'Beginner-safe agents and workflow automation',
         level: 'Intermediate to advanced',
-        goal: 'Introduce agentic thinking without turning the course into technical chaos.',
-        tags: ['Agents', 'Automation', 'Workflow loops'],
-        summary: [
-          'A useful first agent for this audience is boring in the best way: process a folder, summarize files, extract metadata, classify assets, or find inconsistencies.',
-          'The lesson here is about goals, steps, constraints, and review—not about pretending to build a sci-fi empire in one afternoon.'
-        ],
-        exampleTitle: 'First-agent concept',
-        example: 'A metadata agent that scans a folder of campaign assets, suggests tags, detects missing fields, and creates a summary report for the operations team.',
-        demo: ['Define the goal.', 'Define the files or data it can access.', 'Define what outputs it should produce.', 'Define the review step.'],
-        exercise: 'Design a simple workflow agent for your team with one goal and one review stage.',
-        homework: 'Write down three limits you would impose before using an agent on real production data.',
-        quiz: {
-          question: 'Why keep the first agent restrained?',
-          options: [
-            'Because useful work must always be boring.',
-            'Because constrained agents are easier to understand, test, and trust.',
-            'Because agents should never touch workflows.'
-          ],
-          correct: 1,
-          feedback: 'Correct. Restraint makes the system easier to reason about and safer to try.'
-        }
+        tags: ['Agents', 'Automation', 'Workflow'],
+        goal: 'Introduce agentic thinking without letting the project spiral into nonsense.',
+        slides: [
+          {
+            label: 'Big idea',
+            headline: 'Your first agent should be boring in the best possible way',
+            highlightTitle: 'Strong beginner agent',
+            highlight: 'A good first agent processes a folder, extracts metadata, summarizes files, classifies assets, or detects inconsistencies. It does not try to run civilization.',
+            leftTitle: 'Why this is smart',
+            left: [
+              'Constrained agents are easier to understand, test, and trust.',
+              'They still teach the important concepts: goals, steps, tools, outputs, and review.'
+            ],
+            rightTitle: 'Team example',
+            right: 'A metadata agent could scan campaign assets, suggest tags, detect missing info, and create a report for the operations team.'
+          },
+          {
+            label: 'Design it',
+            headline: 'Structure the first agent carefully',
+            highlightTitle: 'The four-part frame',
+            highlight: 'Define the goal, define what it can access, define what it should output, and define how a human reviews the result.',
+            leftTitle: 'Starter checklist',
+            leftList: [
+              'What is the agent trying to achieve?',
+              'What data or files can it use?',
+              'What should it produce at the end?',
+              'Who reviews the output before action is taken?'
+            ],
+            rightTitle: 'Homework',
+            right: 'Write three limits you would impose before letting an agent touch real production data or live workflows.'
+          },
+          {
+            label: 'Quick check',
+            headline: 'Mini quiz',
+            quiz: {
+              question: 'Why keep the first agent constrained?',
+              options: [
+                'Because useful work must always be boring.',
+                'Because constrained agents are easier to understand, test, and trust.',
+                'Because agents should never touch workflows.'
+              ],
+              correct: 1,
+              feedback: 'Correct. Restraint is what makes the system easier to reason about safely.'
+            }
+          }
+        ]
       },
       {
         id: 12,
-        module: 'Module 12',
-        title: 'MCP, platform stacks, and what to ignore for now',
+        title: 'MCP, cloud stacks, and what to postpone for now',
         level: 'Advanced awareness',
-        goal: 'Give learners enough perspective to know what advanced topics exist and when not to prioritize them.',
         tags: ['MCP', 'Bedrock', 'Vertex', 'Prioritization'],
-        summary: [
-          'MCP matters because it standardizes connections between Claude and external tools or services. But for this audience, it is not step one.',
-          'Likewise, Bedrock and Vertex AI matter only if your organization’s technical stack specifically depends on them. It is fine to defer these topics.'
-        ],
-        exampleTitle: 'Strategic takeaway',
-        example: 'Knowing that MCP exists is useful. Trying to master advanced MCP patterns before your team can confidently describe a basic app is not.',
-        demo: ['Explain MCP in plain English.', 'Explain when Bedrock or Vertex become relevant.', 'Discuss why sequencing matters in learning.'],
-        exercise: 'Make a “learn now vs later vs maybe never” list for your team.',
-        homework: 'Create a 30-day learning plan and identify which advanced topics should be intentionally postponed.',
-        quiz: {
-          question: 'What is the smartest approach to advanced topics here?',
-          options: [
-            'Study everything at once to feel ambitious.',
-            'Sequence advanced topics after the fundamentals are genuinely stable.',
-            'Ignore all architecture topics forever.'
-          ],
-          correct: 1,
-          feedback: 'Yes. Good sequencing saves time and prevents fake confidence.'
-        }
+        goal: 'Give the team enough awareness of advanced topics without derailing the learning path.',
+        slides: [
+          {
+            label: 'Big idea',
+            headline: 'Not everything interesting deserves your attention right now',
+            highlightTitle: 'The sequencing principle',
+            highlight: 'MCP matters. Cloud-specific stacks matter. But for this audience, they matter after the basics become stable—not before.',
+            leftTitle: 'Why postponing is intelligent',
+            left: [
+              'Studying advanced integrations too early creates fake confidence.',
+              'It is much more valuable to understand apps, workflows, and safe build habits first.'
+            ],
+            rightTitle: 'Straight explanation',
+            right: 'Knowing that MCP exists is useful. Trying to master advanced MCP patterns before the team can confidently describe a simple app is not.'
+          },
+          {
+            label: 'Prioritize',
+            headline: 'Create a learn-now vs later map',
+            highlightTitle: 'Smart roadmap',
+            highlight: 'Your team should be able to say which topics are current priorities, which are later-stage topics, and which only matter if your actual technical stack requires them.',
+            leftTitle: 'Suggested buckets',
+            leftList: [
+              'Learn now: AI fluency, software basics, apps, prompts, Claude Code basics.',
+              'Learn later: APIs, skills, beginner-safe agents.',
+              'Learn only if needed: MCP, Bedrock, Vertex AI.'
+            ],
+            rightTitle: 'Homework',
+            right: 'Create a 30-day learning plan that includes what your team will intentionally not study yet.'
+          },
+          {
+            label: 'Quick check',
+            headline: 'Mini quiz',
+            quiz: {
+              question: 'What is the smartest approach to advanced topics here?',
+              options: [
+                'Study everything at once so nobody feels behind.',
+                'Sequence advanced topics after the fundamentals are genuinely stable.',
+                'Ignore all architecture topics forever.'
+              ],
+              correct: 1,
+              feedback: 'Yes. Good sequencing saves time and prevents fake confidence.'
+            }
+          }
+        ]
       }
     ];
 
-    const progressKey = 'claudeCodeOpsCourseV2Progress';
+    const progressKey = 'claudeCodeAcademyV3Progress';
+    const slideKey = 'claudeCodeAcademyV3Slides';
     let progress = JSON.parse(localStorage.getItem(progressKey) || '{}');
+    let slideState = JSON.parse(localStorage.getItem(slideKey) || '{}');
 
-    function saveProgress() {
+    function saveState() {
       localStorage.setItem(progressKey, JSON.stringify(progress));
+      localStorage.setItem(slideKey, JSON.stringify(slideState));
       renderProgress();
-      renderLessonNav();
-      renderLessons();
+      renderNav();
+      renderModules();
     }
 
     function renderProgress() {
-      const done = LESSONS.filter(l => progress['lesson-' + l.id]).length;
-      const pct = Math.round((done / LESSONS.length) * 100);
+      const done = MODULES.filter(m => progress['module-' + m.id]).length;
+      const pct = Math.round((done / MODULES.length) * 100);
       document.getElementById('progressFill').style.width = pct + '%';
-      document.getElementById('progressText').textContent = `${done} of ${LESSONS.length} lessons completed`;
+      document.getElementById('progressText').textContent = `${done} of ${MODULES.length} modules completed`;
     }
 
-    function renderLessonNav() {
-      const nav = document.getElementById('lessonNav');
-      nav.innerHTML = LESSONS.map(lesson => `
-        <a href="#lesson-${lesson.id}" onclick="event.preventDefault(); openLesson('lesson-${lesson.id}')">
-          <span>${lesson.module}: ${lesson.title}</span>
-          <span class="status ${progress['lesson-' + lesson.id] ? 'done' : ''}"></span>
+    function renderNav() {
+      document.getElementById('lessonNav').innerHTML = MODULES.map(m => `
+        <a class="nav-link" href="#module-${m.id}" onclick="event.preventDefault(); openModule('module-${m.id}')">
+          <span>${m.id}. ${m.title}</span>
+          <span class="status-dot ${progress['module-' + m.id] ? 'done' : ''}"></span>
         </a>
-      `).join('');
-    }
-
-    function renderJourney() {
-      const grid = document.getElementById('journeyGrid');
-      grid.innerHTML = JOURNEY_DATA.map((item, idx) => `
-        <div class="journey-card ${idx===0 ? 'active' : ''}">
-          <div class="journey-level">Level ${item.level} • ${item.label}</div>
-          <strong>${item.title}</strong>
-          <span>${item.summary}</span>
-        </div>
       `).join('');
     }
 
@@ -1320,147 +1489,214 @@
       return 'caution';
     }
 
-    function renderResources(filter = 'all') {
-      const grid = document.getElementById('resourceGrid');
-      const filtered = RESOURCE_DATA.filter(item => filter === 'all' ? true : item.category === filter);
-      grid.innerHTML = filtered.map(item => `
-        <article class="resource-card" data-category="${item.category}">
+    function renderResources(category = 'all') {
+      const items = RESOURCES.filter(r => category === 'all' ? true : r.category === category);
+      document.getElementById('resourceGrid').innerHTML = items.map(r => `
+        <article class="resource-card">
           <div class="resource-meta">
-            <span class="pill">${item.stage}</span>
-            <span class="pill ${fitClass(item.fit)}">${item.fit}</span>
+            <span class="resource-pill">${r.stage}</span>
+            <span class="resource-pill ${fitClass(r.fit)}">${r.fit}</span>
           </div>
-          <h4>${item.title}</h4>
-          <p>${item.reason}</p>
+          <h4>${r.title}</h4>
+          <p>${r.reason}</p>
           <div class="resource-meta">
-            ${item.tags.map(tag => `<span class="pill">${tag}</span>`).join('')}
+            ${r.tags.map(tag => `<span class="resource-pill">${tag}</span>`).join('')}
           </div>
-          <a class="resource-link" href="${item.url}" target="_blank" rel="noopener noreferrer">Open resource ↗</a>
+          <a class="resource-link" href="${r.url}" target="_blank" rel="noopener noreferrer">Open resource ↗</a>
         </article>
       `).join('');
     }
 
     function filterResources(category, btn) {
-      document.querySelectorAll('.resource-filter button').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.resource-filters .pill-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       renderResources(category);
     }
 
-    function toggleTab(name) {
-      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-      document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
-      const btn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.textContent.toLowerCase().includes(name));
+    function renderJourney() {
+      document.getElementById('journeyGrid').innerHTML = JOURNEY.map(item => `
+        <div class="journey-step">
+          <div class="journey-badge">${item.level}</div>
+          <strong>${item.title}</strong>
+          <span>${item.text}</span>
+        </div>
+      `).join('');
+    }
+
+    function toggleTab(name, btn) {
+      document.querySelectorAll('.tab-row .pill-btn').forEach(b => b.classList.remove('active'));
       if (btn) btn.classList.add('active');
+      document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
       document.getElementById(`tab-${name}`).classList.add('active');
     }
 
-    function markComplete(id) {
-      progress['lesson-' + id] = true;
-      saveProgress();
+    function currentSlideIndex(moduleId) {
+      return slideState['module-' + moduleId] || 0;
     }
 
-    function toggleLesson(id) {
-      const el = document.getElementById(`lesson-${id}`);
-      el.classList.toggle('open');
+    function setSlide(moduleId, index) {
+      const module = MODULES.find(m => m.id === moduleId);
+      const max = module.slides.length - 1;
+      const next = Math.max(0, Math.min(index, max));
+      slideState['module-' + moduleId] = next;
+      localStorage.setItem(slideKey, JSON.stringify(slideState));
+      const track = document.querySelector(`#module-${moduleId} .slides-track`);
+      if (track) track.style.transform = `translateX(-${next * 100}%)`;
+      document.querySelectorAll(`#module-${moduleId} .slide-dot`).forEach((dot, i) => dot.classList.toggle('active', i === next));
+      const counter = document.querySelector(`#module-${moduleId} .slide-counter`);
+      if (counter) counter.textContent = `Slide ${next + 1} of ${module.slides.length}`;
     }
 
-    function openLesson(id) {
+    function nextSlide(moduleId) { setSlide(moduleId, currentSlideIndex(moduleId) + 1); }
+    function prevSlide(moduleId) { setSlide(moduleId, currentSlideIndex(moduleId) - 1); }
+
+    function openModule(id) {
       const el = document.getElementById(id);
       if (!el) return;
-      el.classList.add('open');
+      el.classList.remove('hidden');
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    function expandAllLessons() {
-      document.querySelectorAll('.module').forEach(el => el.classList.add('open'));
+    function markComplete(moduleId) {
+      progress['module-' + moduleId] = true;
+      saveState();
     }
 
-    function showOnlyIncomplete() {
-      LESSONS.forEach(lesson => {
-        const el = document.getElementById(`lesson-${lesson.id}`);
-        if (!progress['lesson-' + lesson.id]) el.classList.remove('hidden');
-        else el.classList.add('hidden');
+    function showIncompleteModules() {
+      MODULES.forEach(m => {
+        const el = document.getElementById(`module-${m.id}`);
+        el.classList.toggle('hidden', !!progress['module-' + m.id]);
       });
     }
 
-    function showAllLessons() {
-      document.querySelectorAll('.module').forEach(el => el.classList.remove('hidden'));
+    function showAllModules() {
+      document.querySelectorAll('.module-shell').forEach(el => el.classList.remove('hidden'));
     }
 
-    function filterLessons() {
-      const term = document.getElementById('lessonSearch').value.toLowerCase().trim();
-      LESSONS.forEach(lesson => {
-        const haystack = [lesson.module, lesson.title, lesson.level, lesson.goal, ...lesson.tags, ...lesson.summary].join(' ').toLowerCase();
-        const el = document.getElementById(`lesson-${lesson.id}`);
-        el.classList.toggle('hidden', term && !haystack.includes(term));
+    function expandAllSlideshows() {
+      document.querySelectorAll('.module-shell').forEach(el => el.classList.remove('hidden'));
+      window.scrollTo({ top: document.getElementById('modulesWrap').offsetTop - 20, behavior: 'smooth' });
+    }
+
+    function filterModules() {
+      const term = document.getElementById('moduleSearch').value.toLowerCase().trim();
+      MODULES.forEach(m => {
+        const haystack = [m.title, m.level, m.goal, ...m.tags, ...m.slides.map(s => [s.label, s.headline, s.highlight || '', s.right || ''].join(' '))].join(' ').toLowerCase();
+        document.getElementById(`module-${m.id}`).classList.toggle('hidden', term && !haystack.includes(term));
       });
     }
 
-    function handleQuiz(lessonId, selected) {
-      const lesson = LESSONS.find(l => l.id === lessonId);
-      const quiz = document.querySelector(`#lesson-${lessonId} .quiz`);
-      const buttons = quiz.querySelectorAll('.quiz-option');
-      const feedback = quiz.querySelector('.quiz-feedback');
+    function handleQuiz(moduleId, slideIndex, selected) {
+      const quiz = MODULES.find(m => m.id === moduleId).slides[slideIndex].quiz;
+      const wrap = document.querySelector(`#quiz-${moduleId}-${slideIndex}`);
+      const buttons = wrap.querySelectorAll('.quiz-option');
+      const feedback = wrap.querySelector('.quiz-feedback');
       buttons.forEach((btn, idx) => {
         btn.disabled = true;
-        if (idx === lesson.quiz.correct) btn.classList.add('correct');
-        if (idx === selected && idx !== lesson.quiz.correct) btn.classList.add('wrong');
+        if (idx === quiz.correct) btn.classList.add('correct');
+        if (idx === selected && idx !== quiz.correct) btn.classList.add('wrong');
       });
-      feedback.textContent = selected === lesson.quiz.correct ? lesson.quiz.feedback : `Not quite. ${lesson.quiz.feedback}`;
+      feedback.textContent = selected === quiz.correct ? quiz.feedback : `Not quite. ${quiz.feedback}`;
     }
 
-    function renderLessons() {
-      const wrap = document.getElementById('lessonContainer');
-      wrap.innerHTML = LESSONS.map(lesson => `
-        <section class="module" id="lesson-${lesson.id}">
-          <div class="module-header" onclick="toggleLesson(${lesson.id})">
-            <div>
-              <h3>${lesson.module}: ${lesson.title}</h3>
-              <p>${lesson.goal}</p>
-              <div class="module-meta">
-                <span class="chip">${lesson.level}</span>
-                ${lesson.tags.map(tag => `<span class="chip">${tag}</span>`).join('')}
-              </div>
-            </div>
-            <button class="ghost-btn module-toggle">${progress['lesson-' + lesson.id] ? 'Completed' : 'Open module'}</button>
+    function renderSlideContent(module, slide, slideIndex) {
+      if (slide.quiz) {
+        return `
+          <div class="slide-header">
+            <h4 class="slide-title">${slide.headline}</h4>
+            <div class="slide-counter">Slide ${slideIndex + 1} of ${module.slides.length}</div>
           </div>
-          <div class="module-content">
-            <div class="module-grid">
-              <div>
-                <div class="module-subcard">
-                  <h4>Core idea</h4>
-                  ${lesson.summary.map(p => `<p>${p}</p>`).join('')}
-                </div>
-                <div class="module-subcard">
-                  <h4>${lesson.exampleTitle}</h4>
-                  ${lesson.example.includes('\n') ? `<pre>${lesson.example.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</pre>` : `<p>${lesson.example}</p>`}
-                </div>
-                <div class="module-subcard">
-                  <h4>Guided walkthrough</h4>
-                  <ol>${lesson.demo.map(item => `<li>${item}</li>`).join('')}</ol>
-                </div>
-              </div>
-              <div>
-                <div class="module-subcard">
-                  <h4>Try it</h4>
-                  <p>${lesson.exercise}</p>
-                </div>
-                <div class="module-subcard">
-                  <h4>Homework</h4>
-                  <p>${lesson.homework}</p>
-                </div>
-                <div class="module-subcard quiz">
-                  <h4>Quick check</h4>
-                  <p><strong>${lesson.quiz.question}</strong></p>
-                  ${lesson.quiz.options.map((option, idx) => `<button class="quiz-option" onclick="handleQuiz(${lesson.id}, ${idx})">${option}</button>`).join('')}
-                  <div class="quiz-feedback"></div>
-                </div>
+          <div class="highlight-box">
+            <strong>Quick knowledge check</strong>
+            Answer the question before moving on.
+          </div>
+          <div class="info-card quiz" id="quiz-${module.id}-${slideIndex}">
+            <h4>${slide.quiz.question}</h4>
+            ${slide.quiz.options.map((option, idx) => `<button class="quiz-option" onclick="handleQuiz(${module.id}, ${slideIndex}, ${idx})">${option}</button>`).join('')}
+            <div class="quiz-feedback"></div>
+          </div>
+        `;
+      }
+
+      const leftBlock = slide.leftCode
+        ? `<div class="code-block">${slide.leftCode.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>`
+        : slide.leftList
+          ? `<ol>${slide.leftList.map(item => `<li>${item}</li>`).join('')}</ol>`
+          : slide.left
+            ? slide.left.map ? slide.left.map(p => `<p>${p}</p>`).join('') : `<p>${slide.left}</p>`
+            : '';
+
+      const rightBlock = slide.rightCode
+        ? `<div class="code-block">${slide.rightCode.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>`
+        : `<p>${slide.right || ''}</p>`;
+
+      return `
+        <div class="slide-header">
+          <h4 class="slide-title">${slide.headline}</h4>
+          <div class="slide-counter">Slide ${slideIndex + 1} of ${module.slides.length}</div>
+        </div>
+        <div class="highlight-box">
+          <strong>${slide.highlightTitle}</strong>
+          ${slide.highlight}
+        </div>
+        <div class="explain-grid">
+          <div class="info-card">
+            <h4>${slide.leftTitle}</h4>
+            ${leftBlock}
+          </div>
+          <div class="info-card">
+            <h4>${slide.rightTitle}</h4>
+            ${rightBlock}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderModules() {
+      const wrap = document.getElementById('modulesWrap');
+      wrap.innerHTML = MODULES.map(module => `
+        <section class="module-shell" id="module-${module.id}">
+          <div class="module-top">
+            <div>
+              <h3>Module ${module.id}: ${module.title}</h3>
+              <p>${module.goal}</p>
+              <div class="module-meta">
+                <span class="tag level">${module.level}</span>
+                ${module.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
               </div>
             </div>
-            ${lesson.id === 5 ? `<div class="callout">Useful team rule: a prompt for build work should read like a good brief, not like an emotional mood board.</div>` : ''}
-            ${lesson.id === 7 ? `<div class="callout success">Healthy habit: inspect the diff before trusting the change. That one practice saves a ridiculous amount of regret.</div>` : ''}
-            ${lesson.id === 12 ? `<div class="callout">Strategic maturity means knowing not only what to learn, but what to postpone. Not every advanced topic deserves your attention today.</div>` : ''}
-            <div class="lesson-actions" style="margin-top:16px;">
-              <button class="button complete-btn ${progress['lesson-' + lesson.id] ? 'done' : ''}" onclick="markComplete(${lesson.id})">${progress['lesson-' + lesson.id] ? 'Completed' : 'Mark as complete'}</button>
+            <div class="lesson-actions">
+              <button class="btn" onclick="markComplete(${module.id})">${progress['module-' + module.id] ? 'Completed' : 'Mark complete'}</button>
+              <button class="ghost-btn" onclick="openModule('module-${module.id}')">Focus module</button>
+            </div>
+          </div>
+
+          <div class="slides-wrap">
+            <div class="slides-track" style="transform: translateX(-${currentSlideIndex(module.id) * 100}%);">
+              ${module.slides.map((slide, idx) => `
+                <div class="slide">
+                  <div class="slide-card">
+                    <div class="module-meta" style="margin:0 0 12px;">
+                      <span class="tag optional">${slide.label}</span>
+                    </div>
+                    ${renderSlideContent(module, slide, idx)}
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <div class="slide-controls">
+            <div class="slide-left">
+              <button class="slide-action" onclick="prevSlide(${module.id})">← Previous</button>
+              <button class="slide-action" onclick="nextSlide(${module.id})">Next →</button>
+            </div>
+            <div class="slide-center">
+              <div class="slide-dots">
+                ${module.slides.map((_, idx) => `<button class="slide-dot ${idx === currentSlideIndex(module.id) ? 'active' : ''}" onclick="setSlide(${module.id}, ${idx})"></button>`).join('')}
+              </div>
+            </div>
+            <div class="slide-right">
               <button class="ghost-btn" onclick="window.scrollTo({top:0, behavior:'smooth'})">Back to top</button>
             </div>
           </div>
@@ -1469,17 +1705,18 @@
     }
 
     document.getElementById('resetProgress').addEventListener('click', () => {
-      if (confirm('Reset saved progress for this browser?')) {
+      if (confirm('Reset saved module progress and slide positions for this browser?')) {
         progress = {};
-        saveProgress();
+        slideState = {};
+        saveState();
       }
     });
 
     renderJourney();
     renderResources();
-    renderLessons();
-    renderLessonNav();
+    renderNav();
     renderProgress();
+    renderModules();
   </script>
 </body>
 </html>
