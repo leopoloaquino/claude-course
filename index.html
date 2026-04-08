@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Claude Code for Beginners — Interactive Training</title>
+  <style>
+    :root {
+      --bg: #0f1221;
+      --panel: #171a2b;
+      --panel-2: #1f2440;
+      --text: #eef1ff;
+      --muted: #b8bfdc;
+      --accent: #7c9cff;
+      --accent-2: #8ef0c7;
+      --danger: #ff8f8f;
+      --warning: #ffd27a;
+      --border: rgba(255,255,255,0.08);
+      --shadow: 0 10px 30px rgba(0,0,0,0.28);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: linear-gradient(180deg, #0d1020 0%, #11152a 100%);
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    a { color: var(--accent-2); }
+    .app {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 24px;
+      border-right: 1px solid var(--border);
+      background: rgba(10,12,24,0.8);
+      backdrop-filter: blur(14px);
+      overflow-y: auto;
+    }
+
+    .brand {
+      margin-bottom: 22px;
+    }
+
+    .brand h1 {
+      margin: 0 0 8px;
+      font-size: 1.35rem;
+      line-height: 1.15;
+    }
+
+    .brand p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .progress-card,
+    .nav-card,
+    .glossary-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+    }
+
+    .progress-wrap {
+      width: 100%;
+      height: 12px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 10px 0 8px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      transition: width 0.3s ease;
+    }
+
+    .sidebar button,
+    .action-btn,
+    .quiz button,
+    .reset-btn {
+      cursor: pointer;
+      border: none;
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-weight: 700;
+      transition: transform 0.15s ease, opacity 0.15s ease, background 0.15s ease;
+    }
+
+    .sidebar button:hover,
+    .action-btn:hover,
+    .quiz button:hover,
+    .reset-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .action-btn,
+    .sidebar button,
+    .quiz button {
+      background: linear-gradient(135deg, var(--accent), #6283ff);
+      color: white;
+    }
+
+    .reset-btn {
+      background: rgba(255,255,255,0.08);
+      color: var(--text);
+      width: 100%;
+      margin-top: 8px;
+    }
+
+    .lesson-nav {
+      display: grid;
+      gap: 8px;
+    }
+
+    .lesson-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 12px;
+      text-decoration: none;
+      color: var(--text);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid transparent;
+      transition: background 0.15s ease, border-color 0.15s ease;
+      font-size: 0.95rem;
+    }
+
+    .lesson-link:hover { background: rgba(255,255,255,0.06); border-color: var(--border); }
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.2);
+      flex-shrink: 0;
+    }
+    .status-dot.done { background: var(--accent-2); }
+
+    .main {
+      padding: 32px;
+      max-width: 1080px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .hero {
+      background: radial-gradient(circle at top left, rgba(124,156,255,0.18), transparent 40%), var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(142,240,199,0.12);
+      color: var(--accent-2);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      margin-bottom: 10px;
+    }
+
+    .hero h2 {
+      margin: 0 0 10px;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      line-height: 1.05;
+    }
+
+    .hero p {
+      color: var(--muted);
+      max-width: 780px;
+      margin: 0 0 18px;
+      font-size: 1.02rem;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .mini-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 14px;
+    }
+
+    .mini-card strong { display: block; margin-bottom: 5px; }
+    .mini-card span { color: var(--muted); font-size: 0.93rem; }
+
+    .module {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 18px;
+      overflow: hidden;
+    }
+
+    .module-header {
+      padding: 20px 22px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
+    }
+
+    .module-header h3 {
+      margin: 0 0 4px;
+      font-size: 1.25rem;
+    }
+
+    .module-header p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .module-content {
+      display: none;
+      padding: 0 22px 24px;
+    }
+
+    .module.open .module-content { display: block; }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 12px 0 18px;
+    }
+
+    .badge {
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      background: rgba(124,156,255,0.12);
+      color: #c8d5ff;
+      border: 1px solid rgba(124,156,255,0.2);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+
+    .card h4 {
+      margin: 0 0 10px;
+      font-size: 1rem;
+    }
+
+    ul, ol { padding-left: 20px; }
+    li { margin-bottom: 8px; }
+
+    .code-block {
+      background: #0d1020;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+      overflow-x: auto;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.9rem;
+      color: #d9e6ff;
+      white-space: pre-wrap;
+    }
+
+    .note {
+      border-left: 4px solid var(--warning);
+      background: rgba(255,210,122,0.08);
+      padding: 12px 14px;
+      border-radius: 12px;
+      color: #ffe6b1;
+      margin: 14px 0;
+    }
+
+    .success {
+      border-left-color: var(--accent-2);
+      background: rgba(142,240,199,0.08);
+      color: #d3ffe9;
+    }
+
+    .quiz {
+      display: grid;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .quiz-option {
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      width: 100%;
+      text-align: left;
+      border: 1px solid var(--border);
+    }
+
+    .quiz-option.correct { background: rgba(142,240,199,0.14); border-color: rgba(142,240,199,0.4); }
+    .quiz-option.wrong { background: rgba(255,143,143,0.14); border-color: rgba(255,143,143,0.35); }
+
+    .quiz-feedback {
+      min-height: 24px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-top: 4px;
+    }
+
+    .lesson-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .complete-btn.done {
+      background: linear-gradient(135deg, #32c98d, #1fa66f);
+    }
+
+    .footer {
+      color: var(--muted);
+      text-align: center;
+      padding: 10px 0 40px;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 940px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar {
+        position: static;
+        height: auto;
+        border-right: 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .main { padding: 20px; }
+      .grid-2, .hero-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <h1>Claude Code for Beginners</h1>
+        <p>Interactive training module for non-technical teams.</p>
+      </div>
+
+      <div class="progress-card">
+        <strong>Your progress</strong>
+        <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+        <div id="progressText">0 of 10 lessons completed</div>
+        <button class="reset-btn" id="resetProgress">Reset progress</button>
+      </div>
+
+      <div class="nav-card">
+        <strong>Course lessons</strong>
+        <div class="lesson-nav" id="lessonNav"></div>
+      </div>
+
+      <div class="glossary-card">
+        <strong>Quick glossary</strong>
+        <p style="color: var(--muted); font-size: 0.92rem;">Frontend = what users see. Backend = logic behind the scenes. API = how systems talk. Agent = a system that can decide steps and use tools.</p>
+      </div>
+    </aside>
+
+    <main class="main">
+      <section class="hero">
+        <div class="eyebrow">Beginner-Friendly Training Module</div>
+        <h2>Learn Claude Code by actually understanding it</h2>
+        <p>This course is designed for complete beginners. It explains the basics of coding, software, AI apps, and AI agents in plain English first, then turns those ideas into simple hands-on lessons your team can follow at their own pace.</p>
+        <div class="lesson-actions">
+          <button class="action-btn" onclick="openLesson('lesson-1')">Start with Lesson 1</button>
+          <button class="reset-btn" onclick="expandAll()">Expand all lessons</button>
+        </div>
+        <div class="hero-grid">
+          <div class="mini-card"><strong>10 lessons</strong><span>From zero to a first AI app and a simple agent.</span></div>
+          <div class="mini-card"><strong>Interactive</strong><span>Built-in quizzes, progress tracking, and quick recaps.</span></div>
+          <div class="mini-card"><strong>Team-friendly</strong><span>Simple enough to share internally as a training module.</span></div>
+        </div>
+      </section>
+
+      <div id="lessons"></div>
+
+      <p class="footer">Built as a lightweight self-paced HTML training experience. Progress is stored locally in the browser.</p>
+    </main>
+  </div>
+
+  <script>
+    const lessons = [
+      {
+        id: 1,
+        title: "What Claude Code Actually Is",
+        goal: "Understand what Claude Code is, what it is not, and how to think about it correctly.",
+        concepts: ["Claude", "Claude Code", "project", "tools", "AI assistant", "AI coding agent"],
+        explain: [
+          "Most beginners imagine Claude Code as a chatbot that magically writes software. That mental model is too fuzzy and causes bad decisions.",
+          "A better mental model is this: Claude is the intelligence, Claude Code is the working environment, your project is the real thing being changed, tools are the hands, and you remain the decision-maker.",
+          "In other words, Claude Code is not a magic wand. It is closer to a smart collaborator working inside a real codebase."
+        ],
+        exampleTitle: "Plain-English analogy",
+        example: "Think of Claude Code as a very smart junior builder working inside your project folder. It can inspect files, suggest changes, and help with technical tasks, but you still need to guide it and review its work.",
+        demo: [
+          "Open a project folder.",
+          "Ask Claude Code: 'Explain this project structure.'",
+          "Then ask: 'What are the most important files here?'",
+          "Do not change anything yet. Start by understanding."
+        ],
+        exercise: "Write two short sentences: one describing what Claude Code does, and one describing what you should still review yourself before trusting it.",
+        homework: "Reflect on what feels intimidating about coding today and what feels slightly clearer after this lesson.",
+        quiz: {
+          question: "Which mental model is the most useful?",
+          options: [
+            "Claude Code is a magic chatbot that automatically knows everything.",
+            "Claude is the intelligence, Claude Code is the environment, and the human still makes decisions.",
+            "Claude Code replaces the need to understand software at all."
+          ],
+          correct: 1,
+          feedback: "Exactly. The safest and most useful mindset is to treat Claude Code as a powerful environment and collaborator, not as infallible magic."
+        }
+      },
+      {
+        id: 2,
+        title: "The Absolute Basics of Code",
+        goal: "Learn the minimum vocabulary needed to stop feeling lost when reading code.",
+        concepts: ["file", "program", "variable", "function", "input", "output", "condition", "loop", "error"],
+        explain: [
+          "You do not need to become a full developer before building things. But you do need enough conceptual vocabulary to recognize what is happening.",
+          "A variable is a named box that stores information. A function is a reusable recipe. A condition means 'if this is true, do that'. A loop means 'repeat this'.",
+          "Once these words stop sounding mystical, code becomes much less emotionally dramatic."
+        ],
+        exampleTitle: "Tiny code example",
+        example: `const name = "Leo";\n\nfunction greet(person) {\n  return "Hello, " + person;\n}\n\nconsole.log(greet(name));`,
+        demo: [
+          "Identify the variable: name.",
+          "Identify the function: greet().",
+          "Identify the input: person.",
+          "Identify the output: the printed greeting."
+        ],
+        exercise: "Look at a short code snippet and point out the variable, the function, the input, and the output.",
+        homework: "Create your own personal glossary of at least 15 beginner coding terms in plain English.",
+        quiz: {
+          question: "What is the best plain-English definition of a function?",
+          options: [
+            "A folder where code lives.",
+            "A reusable recipe that does something.",
+            "A type of database."
+          ],
+          correct: 1,
+          feedback: "Correct. A function is a reusable piece of logic you can call when you want that behavior."
+        }
+      },
+      {
+        id: 3,
+        title: "How Modern Apps Work",
+        goal: "Understand the basic architecture of an app before adding AI into the mix.",
+        concepts: ["frontend", "backend", "database", "API", "request", "response"],
+        explain: [
+          "An app is usually not one thing. It is a system of parts working together.",
+          "Frontend is what the user sees. Backend is the logic behind the scenes. A database stores saved information. An API is a way for systems to talk to each other.",
+          "When people get confused about AI products, they often skip this architecture layer and jump straight to the model. That is usually a mistake."
+        ],
+        exampleTitle: "Example architecture",
+        example: "A text rewriting tool might work like this: the user types into a webpage, the frontend sends the text to the backend, the backend calls Claude, Claude returns a result, and the frontend displays it.",
+        demo: [
+          "Draw the flow on a whiteboard or in slides.",
+          "User enters text → frontend sends request → backend calls AI → response returns → result appears on screen."
+        ],
+        exercise: "Choose an app you use often and describe its frontend, backend, database, and at least one API interaction.",
+        homework: "Write a simple paragraph explaining how a text summarizer app probably works behind the scenes.",
+        quiz: {
+          question: "What is the frontend?",
+          options: [
+            "The part users see and interact with.",
+            "The same thing as the database.",
+            "A secret part only the AI sees."
+          ],
+          correct: 0,
+          feedback: "Yes. The frontend is the visible, interactive part of the product."
+        }
+      },
+      {
+        id: 4,
+        title: "Setting Up Claude Code Without Fear",
+        goal: "Get comfortable with the terminal, folders, commands, and the basic environment.",
+        concepts: ["terminal", "command line", "shell", "path", "directory", "run", "dependency"],
+        explain: [
+          "The terminal looks intimidating mostly because it is text-based. In reality, it is just another way to talk to your computer.",
+          "Developers use the terminal because it is fast, precise, and works well with projects, scripts, version control, and tools like Claude Code.",
+          "You do not need to memorize fifty commands. You need a few basics and the confidence to use them."
+        ],
+        exampleTitle: "Starter commands",
+        example: `cd my-project\nls\npwd\ngit status\nclaude`,
+        demo: [
+          "Open the terminal.",
+          "Move into a project folder with cd.",
+          "List files with ls or dir.",
+          "Run Claude Code inside the project."
+        ],
+        exercise: "Practice opening a terminal, moving into a folder, and listing the files inside it.",
+        homework: "Create a folder named my-first-ai-project and write a README explaining what you may want to build later.",
+        quiz: {
+          question: "What does the terminal mainly do?",
+          options: [
+            "It is a text interface for controlling your computer and project.",
+            "It automatically builds an app for you.",
+            "It is only for expert programmers."
+          ],
+          correct: 0,
+          feedback: "Exactly. The terminal is just a more direct interface, not a secret society ritual."
+        }
+      },
+      {
+        id: 5,
+        title: "How to Work with Claude Code Properly",
+        goal: "Learn how to give Claude Code clear, useful, and safe instructions.",
+        concepts: ["task", "context", "constraints", "success criteria", "review"],
+        explain: [
+          "A vague prompt usually creates vague work. Good collaboration with Claude Code starts with clarity.",
+          "A strong instruction includes five pieces: objective, context, constraints, success criteria, and preferred workflow.",
+          "Small, reviewable requests are better than giant dramatic prompts asking for everything at once."
+        ],
+        exampleTitle: "Prompt upgrade",
+        example: "Weak: 'Build me an amazing app.' Better: 'Inspect this project first. Then add one text input and one submit button without changing the current layout. Explain what changed after editing.'",
+        demo: [
+          "Compare one vague prompt against one clear prompt.",
+          "Look at how much easier the results are to review when the request is scoped properly."
+        ],
+        exercise: "Rewrite three bad prompts into better prompts using objective, context, constraints, success criteria, and workflow.",
+        homework: "Draft five prompts: one for understanding a project, one for changing text, one for adding a feature, one for debugging, and one for explanation only.",
+        quiz: {
+          question: "Which prompt is better for safe collaboration?",
+          options: [
+            "'Do whatever you think is best.'",
+            "'Please inspect the project first, propose a short plan, then add one new input field without changing the layout.'",
+            "'Make it amazing and fast and perfect.'"
+          ],
+          correct: 1,
+          feedback: "Correct. Clear scope and reviewable steps make collaboration safer and more useful."
+        }
+      },
+      {
+        id: 6,
+        title: "Build Your First Tiny AI App",
+        goal: "Understand how a simple AI product comes together from input to result.",
+        concepts: ["form", "input", "backend call", "response", "loading state", "error state"],
+        explain: [
+          "Your first AI app does not need to be flashy. It needs to be understandable.",
+          "A tiny beginner-friendly app might take a block of text, send it to Claude, and return a rewritten version.",
+          "This teaches the most important pattern: user input goes in, backend logic processes it, and output comes back in a usable form."
+        ],
+        exampleTitle: "Beginner project idea",
+        example: "Build a text rewriter with one text box, one button, and one result area. Later you can add options like 'make it shorter' or 'make it more professional'.",
+        demo: [
+          "Create a simple interface with a text box and button.",
+          "Send the text to a backend endpoint.",
+          "Return a response and show it on the page.",
+          "Add a loading state and a basic error message."
+        ],
+        exercise: "Choose one small extension, such as adding a tone option or a translation option.",
+        homework: "Describe the user journey of your tiny app from start to finish in six steps.",
+        quiz: {
+          question: "What is the best goal for a first AI app?",
+          options: [
+            "Make it huge and autonomous immediately.",
+            "Keep it small enough to understand the full flow.",
+            "Skip backend logic and hope for the best."
+          ],
+          correct: 1,
+          feedback: "Exactly. A first AI app should be small enough to understand end to end."
+        }
+      },
+      {
+        id: 7,
+        title: "Git, Version Control, and Not Destroying Your Project",
+        goal: "Learn the basics of Git so experimentation stays safe and reversible.",
+        concepts: ["git", "repository", "commit", "branch", "diff", "rollback"],
+        explain: [
+          "Version control is the reason you can experiment without living in constant dread.",
+          "A repository is a tracked project. A commit is a save point. A diff shows what changed. A branch is a separate line of work.",
+          "If AI is helping you edit code, Git becomes even more important because changes can happen quickly."
+        ],
+        exampleTitle: "Beginner-safe workflow",
+        example: `git status\ngit diff\ngit add .\ngit commit -m "Add text input to homepage"`,
+        demo: [
+          "Make one small change.",
+          "Run git status.",
+          "Inspect the diff before committing.",
+          "Commit the change with a clear message."
+        ],
+        exercise: "Change one line of text in a file and inspect the diff before saving a commit.",
+        homework: "Explain in your own words why Git matters even when an AI tool is helping you code.",
+        quiz: {
+          question: "What does a diff show?",
+          options: [
+            "The current weather.",
+            "The changes made between versions of code.",
+            "A list of AI models."
+          ],
+          correct: 1,
+          feedback: "Right. A diff shows exactly what changed, which is why it is so useful for review."
+        }
+      },
+      {
+        id: 8,
+        title: "AI App vs AI Agent",
+        goal: "Understand the difference between a normal AI-powered app and an agentic system.",
+        concepts: ["fixed workflow", "dynamic workflow", "goal", "tool use", "loop", "decision-making"],
+        explain: [
+          "An AI app usually follows a predictable path. A user gives input, the app performs a known action, and a result comes back.",
+          "An AI agent is different because it can receive a higher-level goal, decide intermediate steps, and use tools to complete the task.",
+          "This is one of the most important distinctions in the whole course. If you miss it, everything starts blurring together."
+        ],
+        exampleTitle: "Simple comparison",
+        example: "AI app: rewrite this email. AI agent: inspect a folder of emails, group them by topic, summarize patterns, and propose next steps.",
+        demo: [
+          "Show the same task as a fixed app flow.",
+          "Then show it as a goal-driven agent flow.",
+          "Discuss where autonomy begins to increase."
+        ],
+        exercise: "Classify five ideas as an AI app, an AI agent, or not enough information yet.",
+        homework: "Invent one AI app idea and one AI agent idea for your team or department.",
+        quiz: {
+          question: "Which description best fits an AI agent?",
+          options: [
+            "A system that only shows a static webpage.",
+            "A goal-driven system that may decide steps and use tools.",
+            "A file with no logic in it."
+          ],
+          correct: 1,
+          feedback: "Correct. The key difference is goal-driven behavior and the ability to decide steps and use tools."
+        }
+      },
+      {
+        id: 9,
+        title: "Building Your First Simple Agent",
+        goal: "Practice agentic thinking with a small, controlled, beginner-safe project.",
+        concepts: ["goal", "state", "tool use", "iteration", "logging", "limits"],
+        explain: [
+          "Your first agent should be useful, understandable, and restrained. It should not try to become a digital emperor on lesson nine.",
+          "A good beginner project is a local file summarizer agent. It reads a folder of text files, summarizes each file, and creates a final overview.",
+          "This introduces multi-step logic without jumping into chaos."
+        ],
+        exampleTitle: "Simple agent workflow",
+        example: "Goal: summarize a folder of notes. Step 1: inspect files. Step 2: read one file at a time. Step 3: create summaries. Step 4: generate one final summary across all files.",
+        demo: [
+          "Define the goal and boundaries.",
+          "Inspect the folder contents.",
+          "Process files one by one.",
+          "Save or display a final combined result."
+        ],
+        exercise: "Change the goal from summarizing to classifying, extracting keywords, or finding duplicate ideas.",
+        homework: "Write down three safety limits you would add before letting the agent process real files.",
+        quiz: {
+          question: "Why should a first agent stay simple?",
+          options: [
+            "Because beginners should avoid understanding anything real.",
+            "Because simple agents make it easier to understand goals, steps, tools, and limits.",
+            "Because agents should never be useful."
+          ],
+          correct: 1,
+          feedback: "Exactly. A simple agent helps you learn the structure without drowning in complexity."
+        }
+      },
+      {
+        id: 10,
+        title: "From Beginner to Builder",
+        goal: "Consolidate what you learned and plan the next realistic step.",
+        concepts: ["project planning", "iteration", "debugging mindset", "scope", "confidence"],
+        explain: [
+          "The goal of this course is not to make you instantly advanced. It is to give you a mental model, a vocabulary, and a practical path forward.",
+          "At this point, you should understand basic code vocabulary, app architecture, safe collaboration with Claude Code, simple AI apps, and the basic idea of agents.",
+          "The next step is not bigger ambition. It is better scoping."
+        ],
+        exampleTitle: "Capstone directions",
+        example: "Choose one realistic project: a tone rewriter, a translation helper, a note summarizer, a file organizer, or a simple research assistant.",
+        demo: [
+          "Review what you now know.",
+          "Choose one small project.",
+          "Define the user, the input, the output, and what success looks like.",
+          "Keep the first version small enough to finish."
+        ],
+        exercise: "Write a one-paragraph project brief for a small AI tool your team could actually use.",
+        homework: "Create a 30-day learning plan with one realistic mini-project and one weekly review checkpoint.",
+        quiz: {
+          question: "What is the smartest next step after this course?",
+          options: [
+            "Build the biggest possible system immediately.",
+            "Choose a small, realistic project and iterate safely.",
+            "Wait until you feel zero confusion before trying anything."
+          ],
+          correct: 1,
+          feedback: "Yes. Progress comes from finishing scoped projects, not from inflating them into technical opera."
+        }
+      }
+    ];
+
+    const storageKey = 'claudeCodeCourseProgress_v1';
+    let progress = JSON.parse(localStorage.getItem(storageKey) || '{}');
+
+    function saveProgress() {
+      localStorage.setItem(storageKey, JSON.stringify(progress));
+      renderProgress();
+      updateNav();
+    }
+
+    function markLessonComplete(id) {
+      progress['lesson-' + id] = true;
+      saveProgress();
+      const btn = document.querySelector(`#lesson-${id} .complete-btn`);
+      if (btn) {
+        btn.textContent = 'Completed';
+        btn.classList.add('done');
+      }
+    }
+
+    function toggleLesson(id) {
+      const el = document.getElementById(`lesson-${id}`);
+      el.classList.toggle('open');
+    }
+
+    function openLesson(anchorId) {
+      const el = document.getElementById(anchorId);
+      if (!el) return;
+      el.classList.add('open');
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function expandAll() {
+      document.querySelectorAll('.module').forEach(m => m.classList.add('open'));
+    }
+
+    function renderProgress() {
+      const done = lessons.filter(l => progress['lesson-' + l.id]).length;
+      const pct = Math.round((done / lessons.length) * 100);
+      document.getElementById('progressBar').style.width = pct + '%';
+      document.getElementById('progressText').textContent = `${done} of ${lessons.length} lessons completed`;
+    }
+
+    function updateNav() {
+      const nav = document.getElementById('lessonNav');
+      nav.innerHTML = '';
+      lessons.forEach(lesson => {
+        const link = document.createElement('a');
+        link.href = `#lesson-${lesson.id}`;
+        link.className = 'lesson-link';
+        link.innerHTML = `<span>Lesson ${lesson.id}: ${lesson.title}</span><span class="status-dot ${progress['lesson-' + lesson.id] ? 'done' : ''}"></span>`;
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          openLesson(`lesson-${lesson.id}`);
+        });
+        nav.appendChild(link);
+      });
+    }
+
+    function handleQuiz(lessonId, selectedIndex, buttonEl) {
+      const lesson = lessons.find(l => l.id === lessonId);
+      const container = document.querySelector(`#lesson-${lessonId} .quiz`);
+      const buttons = container.querySelectorAll('.quiz-option');
+      const feedback = container.querySelector('.quiz-feedback');
+      buttons.forEach((btn, index) => {
+        btn.disabled = true;
+        if (index === lesson.quiz.correct) btn.classList.add('correct');
+        if (index === selectedIndex && index !== lesson.quiz.correct) btn.classList.add('wrong');
+      });
+      feedback.textContent = selectedIndex === lesson.quiz.correct
+        ? lesson.quiz.feedback
+        : `Not quite. ${lesson.quiz.feedback}`;
+    }
+
+    function renderLessons() {
+      const container = document.getElementById('lessons');
+      container.innerHTML = lessons.map(lesson => `
+        <section class="module" id="lesson-${lesson.id}">
+          <div class="module-header" onclick="toggleLesson(${lesson.id})">
+            <div>
+              <h3>Lesson ${lesson.id}: ${lesson.title}</h3>
+              <p>${lesson.goal}</p>
+            </div>
+            <div class="badge">${progress['lesson-' + lesson.id] ? 'Completed' : 'Open module'}</div>
+          </div>
+          <div class="module-content">
+            <div class="badge-row">
+              ${lesson.concepts.map(c => `<span class="badge">${c}</span>`).join('')}
+            </div>
+
+            <div class="grid-2">
+              <div>
+                <div class="card">
+                  <h4>What this lesson teaches</h4>
+                  ${lesson.explain.map(p => `<p>${p}</p>`).join('')}
+                </div>
+
+                <div class="card">
+                  <h4>${lesson.exampleTitle}</h4>
+                  ${lesson.example.includes('\n') ? `<div class="code-block">${lesson.example.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>` : `<p>${lesson.example}</p>`}
+                </div>
+
+                <div class="card">
+                  <h4>Guided demo</h4>
+                  <ol>${lesson.demo.map(item => `<li>${item}</li>`).join('')}</ol>
+                </div>
+              </div>
+
+              <div>
+                <div class="card">
+                  <h4>Try it yourself</h4>
+                  <p>${lesson.exercise}</p>
+                </div>
+
+                <div class="card">
+                  <h4>Homework</h4>
+                  <p>${lesson.homework}</p>
+                </div>
+
+                <div class="card quiz">
+                  <h4>Quick check</h4>
+                  <p><strong>${lesson.quiz.question}</strong></p>
+                  ${lesson.quiz.options.map((option, index) => `<button class="quiz-option" onclick="handleQuiz(${lesson.id}, ${index}, this)">${option}</button>`).join('')}
+                  <div class="quiz-feedback"></div>
+                </div>
+              </div>
+            </div>
+
+            ${lesson.id === 5 ? `<div class="note">Tip: when working with Claude Code, smaller and more reviewable requests usually beat giant prompts with ten ambitions and no structure.</div>` : ''}
+            ${lesson.id === 7 ? `<div class="note success">Good habit: before trusting a code change, inspect the diff. It is one of the simplest quality-control moves in software work.</div>` : ''}
+            ${lesson.id === 9 ? `<div class="note">Beginner safety rule: do not start by building a grand autonomous AI empire. Build one boring, understandable agent first.</div>` : ''}
+
+            <div class="lesson-actions">
+              <button class="action-btn complete-btn ${progress['lesson-' + lesson.id] ? 'done' : ''}" onclick="markLessonComplete(${lesson.id})">${progress['lesson-' + lesson.id] ? 'Completed' : 'Mark as complete'}</button>
+              <button class="reset-btn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">Back to top</button>
+            </div>
+          </div>
+        </section>
+      `).join('');
+    }
+
+    document.getElementById('resetProgress').addEventListener('click', () => {
+      if (confirm('Reset all saved lesson progress for this browser?')) {
+        progress = {};
+        saveProgress();
+        renderLessons();
+      }
+    });
+
+    renderLessons();
+    renderProgress();
+    updateNav();
+  </script>
+</body>
+</html>
+Add interactive training course
