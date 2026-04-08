@@ -965,7 +965,13 @@
               'Once the basic concepts become normal, the code becomes much less emotionally dramatic.'
             ],
             rightTitle: 'Tiny example',
-            rightCode: `const campaignName = "Spring Launch";\n\nfunction describeCampaign(name) {\n  return "Campaign: " + name;\n}\n\nconsole.log(describeCampaign(campaignName));`
+            rightCode: `const campaignName = "Spring Launch";
+
+function describeCampaign(name) {
+  return "Campaign: " + name;
+}
+
+console.log(describeCampaign(campaignName));`
           },
           {
             label: 'Translation',
@@ -1078,7 +1084,11 @@
             highlightTitle: 'The key habit',
             highlight: 'Before asking for implementation, clarify what the system should do, what it should not do, and how you will know it worked.',
             leftTitle: 'Prompt template',
-            leftCode: `Objective: What should change?\nContext: Where in the project does this live?\nConstraints: What must not break or change?\nSuccess criteria: What should be true when this is done?\nWorkflow: Should Claude inspect, plan, and then edit?`,
+            leftCode: `Objective: What should change?
+Context: Where in the project does this live?
+Constraints: What must not break or change?
+Success criteria: What should be true when this is done?
+Workflow: Should Claude inspect, plan, and then edit?`,
             rightTitle: 'Homework',
             right: 'Write five reusable prompts for recurring operational marketing workflows: campaign QA, content formatting, localization, brief cleanup, and reporting summaries.'
           },
@@ -1165,7 +1175,11 @@
             highlightTitle: 'Demystify both',
             highlight: 'You do not need deep command-line mastery. You need enough comfort to open a project, inspect files, and review changes safely.',
             leftTitle: 'Useful starter commands',
-            leftCode: `cd my-project\nls\ngit status\ngit diff\nclaude`,
+            leftCode: `cd my-project
+ls
+git status
+git diff
+claude`,
             rightTitle: 'Straight explanation',
             right: 'Git matters even more when using AI tools, because changes can happen quickly. If you do not inspect diffs, you will eventually trust something you should have checked.'
           },
@@ -1228,7 +1242,11 @@
             highlightTitle: 'The safest ask',
             highlight: 'Good beginner collaboration is about small, reviewable edits. You are training both the tool and yourself to work in a controlled way.',
             leftTitle: 'Prompt pattern',
-            leftCode: `Please inspect this project first.\nThen tell me where the relevant logic lives.\nThen propose a short plan.\nThen make one small change only.\nFinally, explain what changed and what I should review.`,
+            leftCode: `Please inspect this project first.
+Then tell me where the relevant logic lives.
+Then propose a short plan.
+Then make one small change only.
+Finally, explain what changed and what I should review.`,
             rightTitle: 'Homework',
             right: 'Write the exact prompt you would use to request one tiny edit to an internal workflow tool.'
           },
